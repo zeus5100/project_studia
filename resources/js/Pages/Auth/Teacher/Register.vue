@@ -7,15 +7,18 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
-  name: '',
+  first_name: '',
+  last_name: '',
+  phone: '',
   email: '',
+  login: '',
   password: '',
   password_confirmation: '',
-  nickname: '',
+  comments: '',
 });
 
 const submit = () => {
-  form.post(route('register'), {
+  form.post(route('register/teacher'), {
     onFinish: () => form.reset('password', 'password_confirmation'),
   });
 };
@@ -23,27 +26,72 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Register" />
+    <Head title="Rejestracja Nauczyciela" />
 
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="name" value="Name" />
+        <InputLabel for="first_name" value="Imię" />
 
         <TextInput
-          id="name"
+          id="first_name"
           type="text"
           class="mt-1 block w-full"
-          v-model="form.name"
+          v-model="form.first_name"
           required
           autofocus
-          autocomplete="name"
+          autocomplete="first_name"
         />
 
-        <InputError class="mt-2" :message="form.errors.name" />
+        <InputError class="mt-2" :message="form.errors.first_name" />
       </div>
 
       <div class="mt-4">
-        <InputLabel for="email" value="Email" />
+        <InputLabel for="last_name" value="Nazwisko" />
+
+        <TextInput
+          id="last_name"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.last_name"
+          required
+          autocomplete="last_name"
+        />
+
+        <InputError class="mt-2" :message="form.errors.last_name" />
+      </div>
+
+      <div class="mt-4">
+        <InputLabel for="phone" value="Numer telefonu" />
+
+        <TextInput
+          id="phone"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.phone"
+          required
+          autocomplete="phone"
+        />
+
+        <InputError class="mt-2" :message="form.errors.phone" />
+      </div>
+
+      <div class="mt-4">
+        <InputLabel for="login" value="Login" />
+
+        <TextInput
+          id="login"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.login"
+          required
+          autocomplete="login"
+        />
+
+        <InputError class="mt-2" :message="form.errors.login" />
+      </div>
+
+      <div class="mt-4">
+        <InputLabel for="email" value="Adres e-mail" />
 
         <TextInput
           id="email"
@@ -73,7 +121,7 @@ const submit = () => {
       </div>
 
       <div class="mt-4">
-        <InputLabel for="password_confirmation" value="Confirm Password" />
+        <InputLabel for="password_confirmation" value="Powtórz Hasło" />
 
         <TextInput
           id="password_confirmation"
@@ -87,12 +135,22 @@ const submit = () => {
         <InputError class="mt-2" :message="form.errors.password_confirmation" />
       </div>
 
+      <div class="mt-4">
+        <InputLabel for="comments" value="Uwagi" />
+        <textarea
+          id="comments"
+          v-model="form.comments"
+          class="mt-1 block w-full"
+          placeholder="Dodaj swoje uwagi"
+        ></textarea>
+      </div>
+
       <div class="flex items-center justify-end mt-4">
         <Link
-          :href="route('login')"
+          :href="route('dashboard')"
           class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
-          Already registered?
+          Logowanie
         </Link>
 
         <PrimaryButton
@@ -100,7 +158,7 @@ const submit = () => {
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >
-          Register
+          Zarejestruj
         </PrimaryButton>
       </div>
     </form>
