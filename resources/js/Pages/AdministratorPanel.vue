@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
-  <Head title="Strona Główna" />
+  <Head title="Panel Administratora" />
 
   <AuthenticatedLayout>
     <template #header>
@@ -12,6 +12,14 @@ import { Head } from '@inertiajs/vue3';
         class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
       >
         Panel Główny
+      </h2>
+    </template>
+
+    <template #register>
+      <h2
+        class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
+      >
+        Rejestracja użytkownika
       </h2>
     </template>
 

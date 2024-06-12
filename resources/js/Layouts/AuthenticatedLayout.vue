@@ -37,6 +37,12 @@ const showingNavigationDropdown = ref(false);
                 >
                   Panel Główny
                 </NavLink>
+                <NavLink
+                  :href="route('register')"
+                  :active="route().current('register')"
+                >
+                  Rejestracja użytkownika
+                </NavLink>
               </div>
             </div>
 
@@ -135,7 +141,7 @@ const showingNavigationDropdown = ref(false);
               :href="route('dashboard')"
               :active="route().current('dashboard')"
             >
-              Dashboard
+              Panel Główny
             </ResponsiveNavLink>
           </div>
 

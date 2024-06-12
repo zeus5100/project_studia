@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Teacher extends Authenticatable
@@ -13,17 +14,11 @@ class Teacher extends Authenticatable
         'first_name',
         'last_name',
         'phone',
-        'email',
-        'login',
-        'password',
         'comments',
     ];
 
-    protected $hidden = [
-        'password',
-    ];
-
-    protected $casts = [
-        'password' => 'hashed',
-    ];
+    public function user(): HasOne
+    {
+        return $this->HasOne(User::class);
+    }
 }
