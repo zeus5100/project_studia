@@ -1,10 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import NavLink from '@/Components/NavLink.vue';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-  <Head title="Panel Administratora" />
+  <Head title="Strona Główna" />
 
   <AuthenticatedLayout>
     <template #header>
@@ -14,13 +18,30 @@ import { Head } from '@inertiajs/vue3';
         Panel Główny
       </h2>
     </template>
-
-    <template #register>
-      <h2
-        class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
+    <template #main>
+      <Link :href="route('admin.dashboard')">
+        <ApplicationLogo
+          class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
+        />
+      </Link>
+    </template>
+    <template #nav>
+      <NavLink
+        :href="route('admin.dashboard')"
+        :active="route().current('admin.dashboard')"
       >
+        Panel Główny
+      </NavLink>
+      <NavLink :href="route('register')" :active="route().current('register')">
         Rejestracja użytkownika
-      </h2>
+      </NavLink>
+
+      <NavLink :href="route('event')" :active="route().current('event')">
+        Rejestracja wydarzenia
+      </NavLink>
+      <NavLink :href="route('register')" :active="route().current('register')">
+        Zarządzaj
+      </NavLink>
     </template>
 
     <div class="py-12">

@@ -22,27 +22,12 @@ const showingNavigationDropdown = ref(false);
             <div class="flex">
               <!-- Logo -->
               <div class="shrink-0 flex items-center">
-                <Link :href="route('dashboard')">
-                  <ApplicationLogo
-                    class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                  />
-                </Link>
+                <slot name="main"></slot>
               </div>
 
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink
-                  :href="route('dashboard')"
-                  :active="route().current('dashboard')"
-                >
-                  Panel Główny
-                </NavLink>
-                <NavLink
-                  :href="route('register')"
-                  :active="route().current('register')"
-                >
-                  Rejestracja użytkownika
-                </NavLink>
+                <slot name="nav"></slot>
               </div>
             </div>
 
@@ -137,12 +122,12 @@ const showingNavigationDropdown = ref(false);
           class="sm:hidden"
         >
           <div class="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink
+            <!-- <ResponsiveNavLink
               :href="route('dashboard')"
               :active="route().current('dashboard')"
             >
               Panel Główny
-            </ResponsiveNavLink>
+            </ResponsiveNavLink> -->
           </div>
 
           <!-- Responsive Settings Options -->

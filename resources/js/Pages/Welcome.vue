@@ -29,62 +29,59 @@ function handleImageError() {
 <template>
   <Head title="Witamy w naszej szkole" />
   <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+    <div
+      class="min-h-screen bg-gray-100 flex flex-col justify-center items-center"
+    >
+      <header class="w-full bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 class="text-3xl font-bold text-gray-900">
+            Witamy w naszej szkole - Zespół Szkół Technicznych nr 2
+          </h1>
+        </div>
+      </header>
+
+      <main class="flex-grow flex flex-col justify-center items-center py-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-2xl md:text-4xl font-extrabold text-gray-900">
+            Przygotowujemy Uczniów na Świetlaną Przyszłość
+          </h2>
+          <p class="mt-4 text-lg text-gray-600">
+            Nasza szkoła średnia oferuje wszechstronny program nauczania,
+            zaprojektowany tak, aby przygotować uczniów do wyzwań przyszłości.
+            Dołącz do nas, aby wspierać doskonałość akademicką i rozwój
+            osobisty.
+          </p>
+          <div class="mt-8">
+            <a
+              href="#"
+              class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
+                <Link
+                  :href="route('login')"
+                  class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                >
+                  Login
+                </Link>
+              </nav>
+            </a>
+          </div>
+        </div>
+      </main>
+
+      <footer class="w-full bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+          <p class="text-center text-gray-600 text-sm">
+            &copy; 2024 Zespół Szkół Technicznych nr 2. Wszelkie prawa
+            zastrzeżone.
+          </p>
+        </div>
+      </footer>
+    </div>
     <img
       id="background"
-      class="absolute -left-20 top-0 max-w-[877px]"
+      class="absolute -left-80 top-0 max-w-[877px] h-full"
       src="https://laravel.com/assets/img/welcome/background.svg"
     />
-    <div
-      class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
-    >
-      <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-        <header
-          class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3"
-        >
-          <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
-            <Link
-              v-if="$page.props.auth.user"
-              :href="route('dashboard')"
-              class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >
-              Dashboard
-            </Link>
-
-            <template v-else>
-              <Link
-                :href="route('register/teacher')"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-              >
-                Dla nauczyciela - Rejestracja
-              </Link>
-
-              <Link
-                :href="route('login/teacher')"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-              >
-                Dla nauczyciela - Login
-              </Link>
-
-              <!-- <Link
-                v-if="canRegister"
-                :href="route('register')"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-              >
-                Dla nauczyciela
-              </Link>
-
-              <Link
-                :href="route('admin')"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-              >
-                Dla administratora
-              </Link> -->
-            </template>
-          </nav>
-        </header>
-
-        <main class="mt-6"></main>
-      </div>
-    </div>
   </div>
 </template>

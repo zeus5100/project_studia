@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'phone' => 'required_if:selected_role,1|nullable|string|max:20',
-            'class_id' => 'required_if:selected_role,2|exists:student_classes,id',
+            'class_id' => 'required_if:selected_role,2|nullable|exists:student_classes,id',
             'comments' => 'nullable|string|max:1000',
         ]);
 
