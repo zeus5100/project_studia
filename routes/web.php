@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentClassController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +28,8 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
     Route::get('/classes', [StudentClassController::class, 'index']);
     Route::get('/rooms', [RoomController::class, 'index']);
+    Route::get('/subjects', [SubjectController::class, 'index']);
+    Route::get('/teachers', [TeacherController::class, 'index']);
 
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
@@ -33,6 +38,10 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('event', [EventController::class, 'create'])
         ->name('event');
     Route::post('event', [EventController::class, 'store']);
+
+    Route::get('activity', [ActivityController::class, 'create'])
+        ->name('activity');
+    Route::post('activity', [ActivityController::class, 'store']);
 });
 Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::get('/teacher/dashboard', function () {

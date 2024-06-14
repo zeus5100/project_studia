@@ -9,7 +9,6 @@ import { Link } from '@inertiajs/vue3';
 
 <template>
   <Head title="Strona Główna" />
-
   <AuthenticatedLayout>
     <template #header>
       <h2
@@ -38,6 +37,10 @@ import { Link } from '@inertiajs/vue3';
 
       <NavLink :href="route('event')" :active="route().current('event')">
         Rejestracja wydarzenia
+      </NavLink>
+
+      <NavLink :href="route('activity')" :active="route().current('activity')">
+        Tworzenie zajęć
       </NavLink>
       <NavLink :href="route('register')" :active="route().current('register')">
         Zarządzaj

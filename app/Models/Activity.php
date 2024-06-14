@@ -11,7 +11,7 @@ class Activity extends Model
     use HasFactory;
 
     protected $fillable = [
-        'class_id',
+        'student_class_id',
         'subject_id',
         'room_id',
         'teacher_id',
