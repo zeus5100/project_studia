@@ -55,12 +55,17 @@ const loadAnotherPage = async (page = 1) => {
 const modalVisible = ref(false);
 const modalMessage = ref('');
 
-const deleteTableRow = async (id) => {
-  await axios.delete(`/${form.table}/${id}`).then(({ data }) => {
-    if (data.status == 'succes') loadAnotherPage(tablePage.value);
-    modalMessage.value = data.message;
-    modalVisible.value = true;
-  });
+const deleteTableRow = (id) => {
+  axios
+    .delete(`/${form.table}/${id}`)
+    .then(({ data }) => {
+      loadAnotherPage(tablePage.value);
+      modalMessage.value = data.message;
+      modalVisible.value = true;
+    })
+    .catch((response) => {
+      console.log('Wystąpił error: ' + response);
+    });
 };
 </script>
 

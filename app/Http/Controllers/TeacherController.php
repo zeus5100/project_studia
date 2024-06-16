@@ -67,41 +67,18 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-
-        $relations = [
-            'studentClasses' => 'Klasy',
-            'activities' => 'Zajęcia',
-        ];
-
-        $relatedTables = [];
-        foreach ($relations as $relation => $relationName) {
-            if ($teacher->$relation()->exists()) {
-                $relatedTables[] = $relationName;
-            }
-        }
-
-        if (! empty($relatedTables)) {
-            $tables = implode(', ', $relatedTables);
-
-            return response()->json([
-                'status' => 'error',
-                'message' => "Nie można usunąć nauczyciela, ponieważ jest powiązany z tabelą: $tables.",
-            ], 200);
-        }
-
         try {
             $teacher->delete();
 
             return response()->json([
-                'status' => 'succes',
                 'message' => 'Nauczyciel został pomyślnie usunięty',
-            ], 200);
+            ]);
         } catch (\Exception $e) {
+            dd($e);
 
             return response()->json([
-                'status' => 'error',
                 'message' => 'Wystąpił błąd podczas usuwania nauczyciela',
-            ], 200);
+            ], 500);
         }
     }
 }
