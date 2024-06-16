@@ -26,10 +26,19 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         return Inertia::render('AdministratorPanel');
     })->name('admin.dashboard');
 
+    Route::get('/admin/manage', function () {
+        return Inertia::render('ManagePanel');
+    })->name('admin.manage');
+
     Route::get('/classes', [StudentClassController::class, 'index']);
     Route::get('/rooms', [RoomController::class, 'index']);
+
     Route::get('/subjects', [SubjectController::class, 'index']);
+    Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy']);
+    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+
     Route::get('/teachers', [TeacherController::class, 'index']);
+    Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy']);
 
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
