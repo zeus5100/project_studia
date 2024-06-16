@@ -4,16 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('page')) {
+            $subjects = Subject::paginate(10);
+        } else {
+            $subjects = Subject::all();
+        }
+
         return response()->json([
-            'subjects' => Subject::all(),
+            'subjects' => $subjects,
         ]);
     }
 
@@ -46,7 +53,9 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return Inertia::render('Auth/Subjects/Edit', [
+            'subject' => $id,
+        ]);
     }
 
     /**
@@ -60,8 +69,14 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Subject $subject)
     {
-        //
+        try {
+            $subject->delete();
+
+            return response()->json(['message' => 'Przedmiot został pomyślnie usunięty'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Wystąpił błąd podczas usuwania przedmiotu'], 500);
+        }
     }
 }

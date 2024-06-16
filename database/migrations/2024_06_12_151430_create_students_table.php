@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('comments')->nullable();
             $table->foreignIdFor(StudentClass::class)->constrained();
             $table->foreignIdFor(User::class)->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone', 15);
             $table->string('comments')->nullable();
             $table->foreignIdFor(User::class)->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

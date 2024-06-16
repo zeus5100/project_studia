@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Student::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(AttendanceStatus::class)->constrained()->onDelete('cascade');
             $table->text('comments')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

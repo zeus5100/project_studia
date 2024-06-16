@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('grade_value', 3, 2);
             $table->unsignedTinyInteger('grade_weight');
             $table->string('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

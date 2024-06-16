@@ -25,6 +25,7 @@ return new class extends Migration
             $table->time('end_time');
             $table->string('day_of_week');
             $table->text('comments')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

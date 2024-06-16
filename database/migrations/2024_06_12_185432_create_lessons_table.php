@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('lesson_topic');
             $table->dateTime('lesson_datetime');
             $table->string('comments')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

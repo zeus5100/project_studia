@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('room_number');
             $table->unsignedInteger('capacity');
             $table->text('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

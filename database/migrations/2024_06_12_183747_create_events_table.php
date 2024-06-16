@@ -18,6 +18,7 @@ return new class extends Migration
             $table->datetime('date');
             $table->text('description')->nullable();
             $table->foreignIdFor(Room::class)->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

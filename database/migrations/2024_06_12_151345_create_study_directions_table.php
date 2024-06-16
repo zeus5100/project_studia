@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('study_directions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 30);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('name', 10);
             $table->unsignedTinyInteger('student_count')->default(0);
             $table->string('comments', 200)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
