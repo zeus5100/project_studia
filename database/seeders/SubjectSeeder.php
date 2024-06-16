@@ -23,6 +23,8 @@ class SubjectSeeder extends Seeder
             'Język angielski',
             'Język niemiecki',
             'Język francuski',
+            'Wychowanie fizyczne',
+            'Programowanie Serwisów Internetowych',
         ];
 
         foreach ($subjects as $subject) {

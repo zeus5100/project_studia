@@ -14,11 +14,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::create([
-            'login' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'login' => 'admin',
+                'password' => Hash::make('password'),
+            ]
+        );
 
         $adminRole = Role::where('name', 'admin')->first();
 
@@ -27,12 +29,14 @@ class UserSeeder extends Seeder
             $admin->roles()->attach($adminRole);
         }
 
-        $teacher = User::create([
-            'login' => 'testTeacher',
-            'email' => 'teacher@example.com',
-            'password' => Hash::make('password'),
-        ]);
-        $teacher->teacher()->create([
+        $teacher = User::updateOrCreate(
+            ['email' => 'teacher@example.com'],
+            [
+                'login' => 'testTeacher',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $teacher->teacher()->updateOrCreate([
             'first_name' => 'testTeacher',
             'last_name' => 'testTeacher',
             'phone' => 'testTeacher',
