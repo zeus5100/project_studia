@@ -9,15 +9,24 @@ import NavLink from '@/Components/NavLink.vue';
   >
     Panel Główny
   </NavLink>
-  <NavLink :href="route('register')" :active="route().current('register')">
+  <NavLink
+    :href="route('register')"
+    :active="route().current('register.create')"
+  >
     Rejestracja użytkownika
   </NavLink>
 
-  <NavLink :href="route('event')" :active="route().current('event')">
+  <NavLink
+    :href="route('events.create')"
+    :active="route().current('events.create')"
+  >
     Rejestracja wydarzenia
   </NavLink>
 
-  <NavLink :href="route('activity')" :active="route().current('activity')">
+  <NavLink
+    :href="route('activities.create')"
+    :active="route().current('activities')"
+  >
     Tworzenie zajęć
   </NavLink>
   <NavLink

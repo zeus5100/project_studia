@@ -9,48 +9,38 @@ use Inertia\Inertia;
 
 class TeacherController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->has('page')) {
-            $teachers = Teacher::select('id', 'first_name', 'last_name', 'phone')
-                ->paginate(10);
-        } else {
-            $teachers = Teacher::select('id', 'first_name', 'last_name', 'phone')
-                ->get();
-        }
 
         return response()->json([
-            'teachers' => $teachers,
+            'teachers' => Teacher::select('id', 'first_name', 'last_name', 'phone')
+                ->paginate(10),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function select()
+    {
+        return response()->json([
+            'teachers' => Teacher::select('id', 'first_name', 'last_name', 'phone')
+                ->get(),
+        ]);
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Teacher $teacher)
     {
         return Inertia::render('Auth/Teacher/Edit', [
@@ -58,9 +48,6 @@ class TeacherController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(TeacherRequest $request, Teacher $teacher)
     {
 
@@ -69,9 +56,6 @@ class TeacherController extends Controller
         return redirect()->route('admin.manage', ['table' => 'teachers']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Teacher $teacher)
     {
         try {

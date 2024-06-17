@@ -6,6 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
+import { Notivue, Notification, NotificationProgress, push } from 'notivue';
 
 const form = useForm({
   room_id: '',
@@ -16,26 +17,41 @@ const form = useForm({
 
 const allRooms = ref({});
 const getAllRooms = async () => {
-  await axios.get(`/rooms`).then(({ data }) => {
-    allRooms.value = data.rooms;
-  });
+  const { data } = await axios.get(route(`rooms.select`));
+  return data.rooms;
 };
 
 const submit = () => {
-  form.post(route('event'), {
-    onFinish: () => form.reset('password', 'password_confirmation'),
+  form.post(route('events.store'), {
+    onSuccess: () => {
+      push.success({
+        title: 'Sukces',
+        message: 'Pomyślnie dodano nowe wydarzenie!',
+      });
+      form.reset();
+    },
+    onError: () => {
+      push.error({
+        title: 'Błąd',
+        message: 'Nie wszystkie pola zostały poprawnie wypełnione',
+      });
+    },
   });
 };
 
-onMounted(() => {
-  getAllRooms();
+onMounted(async () => {
+  allRooms.value = await getAllRooms();
 });
 </script>
 
 <template>
   <GuestLayout>
     <Head title="Tworzenie wydarzenia" />
-
+    <Notivue v-slot="item">
+      <Notification :item="item">
+        <NotificationProgress :item="item" />
+      </Notification>
+    </Notivue>
     <form @submit.prevent="submit">
       <div>
         <InputLabel for="room_id" value="Wybierz sale" />
@@ -70,16 +86,16 @@ onMounted(() => {
       </div>
 
       <div class="mt-4">
-        <InputLabel for="last_name" value="Nazwisko" />
+        <InputLabel for="date" value="Nazwisko" />
 
         <input
           type="datetime-local"
-          id="event-datetime"
+          id="date"
           v-model="form.date"
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         />
 
-        <InputError class="mt-2" :message="form.errors.last_name" />
+        <InputError class="mt-2" :message="form.errors.date" />
       </div>
 
       <div class="mt-4">
@@ -93,6 +109,7 @@ onMounted(() => {
           v-model="form.description"
           autocomplete="new-password"
         ></textarea>
+        <InputError class="mt-2" :message="form.errors.description" />
       </div>
 
       <div class="flex items-center justify-end mt-4">

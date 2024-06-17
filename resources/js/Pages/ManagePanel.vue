@@ -47,7 +47,7 @@ const tablePage = ref(1);
 const loadAnotherPage = (page = 1) => {
   tablePage.value = page;
   axios
-    .get(`/${form.table}`, {
+    .get(route(`${form.table}.index`), {
       params: {
         page: page,
       },
@@ -65,7 +65,7 @@ const modalMessage = ref('');
 
 const deleteTableRow = (id) => {
   axios
-    .delete(`/${form.table}/${id}`)
+    .delete(route(`${form.table}.delete`, { id: id }))
     .then(async ({ data }) => {
       await loadAnotherPage(tablePage.value);
       modalMessage.value = data.message;

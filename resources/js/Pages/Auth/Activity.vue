@@ -10,7 +10,7 @@ import { onMounted, ref } from 'vue';
 import { Notivue, Notification, NotificationProgress, push } from 'notivue';
 
 const form = useForm({
-  class_id: '',
+  student_class_id: '',
   subject_id: '',
   room_id: '',
   teacher_id: '',
@@ -40,14 +40,8 @@ const lessonTimers = ref([
 const daysOfWeek = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek'];
 
 const fetchData = async (url) => {
-  const dataRef = ref({});
-  try {
-    const { data } = await axios.get(url);
-    dataRef.value = data;
-  } catch (error) {
-    console.error(`Failed to fetch data`);
-  }
-  return dataRef.value;
+  const { data } = await axios.get(route(`${url}.select`));
+  return data;
 };
 
 const allRooms = ref({});
@@ -56,29 +50,28 @@ const allSubjects = ref({});
 const allTeachers = ref({});
 
 const submit = () => {
-  form.post(route('activity'), {
-    onFinish: () => {
+  form.post(route('activities.store'), {
+    onSuccess: () => {
       push.success({
         title: 'Sukces',
         message: 'Pomyślnie dodano nowe zajęcia!',
       });
-      form.class_id = '';
-      form.subject_id = '';
-      form.room_id = '';
-      form.teacher_id = '';
-      form.start_time = '';
-      form.end_time = '';
-      form.day_of_week = '';
-      form.comments = '';
+      form.reset();
+    },
+    onError: () => {
+      push.error({
+        title: 'Błąd',
+        message: 'Nie wszystkie pola zostały poprawnie wypełnione',
+      });
     },
   });
 };
 
 onMounted(async () => {
-  allRooms.value = (await fetchData('/rooms')).rooms;
-  allClasses.value = (await fetchData('/classes')).classes;
-  allSubjects.value = (await fetchData('/subjects')).subjects;
-  allTeachers.value = (await fetchData('/teachers')).teachers;
+  allRooms.value = (await fetchData('rooms')).rooms;
+  allClasses.value = (await fetchData('classes')).classes;
+  allSubjects.value = (await fetchData('subjects')).subjects;
+  allTeachers.value = (await fetchData('teachers')).teachers;
 });
 </script>
 
@@ -93,10 +86,10 @@ onMounted(async () => {
     </Notivue>
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="class_id" value="Wybierz klase" />
+        <InputLabel for="student_class_id" value="Wybierz klase" />
         <select
-          v-model="form.class_id"
-          id="class_id"
+          v-model="form.student_class_id"
+          id="student_class_id"
           required
           class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
         >
@@ -109,7 +102,7 @@ onMounted(async () => {
             {{ singleClass.name }} - {{ singleClass.academic_year }}
           </option>
         </select>
-        <InputError class="mt-2" :message="form.errors.class_id" />
+        <InputError class="mt-2" :message="form.errors.student_class_id" />
       </div>
 
       <div class="mt-4">

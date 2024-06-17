@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -27,23 +28,10 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'date' => 'required|date|after_or_equal:today',
-            'room_id' => 'required|exists:rooms,id',
-        ]);
 
-        Event::create([
-            'name' => $request->name,
-            'date' => $request->date,
-            'description' => $request->description,
-            'room_id' => $request->room_id,
-        ]);
-
-        return redirect()->route('admin.dashboard');
+        Event::create($request->validated());
     }
 
     /**

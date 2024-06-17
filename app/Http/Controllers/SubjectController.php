@@ -9,49 +9,36 @@ use Inertia\Inertia;
 
 class SubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->has('page')) {
-            $subjects = Subject::select('id', 'name', 'created_at', 'updated_at')->paginate(10);
-        } else {
-            $subjects = Subject::select('id', 'name', 'created_at', 'updated_at')->get();
-        }
 
         return response()->json([
-            'subjects' => $subjects,
+            'subjects' => Subject::select('id', 'name', 'created_at', 'updated_at')->paginate(10),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function select()
+    {
+        return response()->json([
+            'subjects' => Subject::select('id', 'name', 'created_at', 'updated_at')->get(),
+        ]);
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Subject $subject)
     {
         return Inertia::render('Auth/Subject/Edit', [
@@ -59,9 +46,6 @@ class SubjectController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(SubjectRequest $request, Subject $subject)
     {
         $subject->update($request->validated());
@@ -69,15 +53,12 @@ class SubjectController extends Controller
         return redirect()->route('admin.manage', ['table' => 'subjects']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Subject $subject)
     {
         try {
             $subject->delete();
 
-            return response()->json(['message' => 'Przedmiot został pomyślnie usunięty'], 200);
+            return response()->json(['message' => 'Przedmiot został pomyślnie usunięty']);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Wystąpił błąd podczas usuwania przedmiotu'], 500);
         }
