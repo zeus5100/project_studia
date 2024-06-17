@@ -8,16 +8,12 @@ class StudentClassController extends Controller
 {
     public function index()
     {
-        return response()->json([
-            'classes' => StudentClass::select('id', 'name', 'academic_year', 'student_count', 'study_direction_id', 'teacher_id')->paginate(10),
-        ]);
+        return response()->json(StudentClass::select('id', 'name', 'academic_year', 'student_count', 'study_direction_id', 'teacher_id')->paginate(10));
     }
 
     public function select()
     {
-        return response()->json([
-            'classes' => StudentClass::select('id', 'name', 'academic_year', 'student_count', 'study_direction_id', 'teacher_id')
-                ->get(),
-        ]);
+        return response()->json(StudentClass::select('id', 'name', 'academic_year', 'student_count', 'study_direction_id', 'teacher_id')
+            ->get());
     }
 }

@@ -12,16 +12,12 @@ class SubjectController extends Controller
     public function index()
     {
 
-        return response()->json([
-            'subjects' => Subject::select('id', 'name', 'created_at', 'updated_at')->paginate(10),
-        ]);
+        return response()->json(Subject::select('id', 'name', 'created_at', 'updated_at')->paginate(10));
     }
 
     public function select()
     {
-        return response()->json([
-            'subjects' => Subject::select('id', 'name', 'created_at', 'updated_at')->get(),
-        ]);
+        return response()->json(Subject::select('id', 'name')->get());
     }
 
     public function create()

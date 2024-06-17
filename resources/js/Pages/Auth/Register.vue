@@ -27,8 +27,8 @@ const optionsRole = ref([
 
 const allClasses = ref({});
 const getAllClasses = async () => {
-  await axios.get(`/classes`).then(({ data }) => {
-    allClasses.value = data.classes;
+  await axios.get(route(`classes.select`)).then(({ data }) => {
+    allClasses.value = data;
   });
 };
 

@@ -12,17 +12,13 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'rooms' => Room::select('id', 'room_number', 'capacity', 'description')->paginate(10),
-        ]);
+        return response()->json(Room::select('id', 'room_number', 'capacity', 'description')->paginate(10));
     }
 
     public function select()
     {
-        return response()->json([
-            'rooms' => Room::select('id', 'room_number', 'capacity', 'description')
-                ->get(),
-        ]);
+        return response()->json(Room::select('id', 'room_number', 'capacity', 'description')
+            ->get());
     }
 
     /**

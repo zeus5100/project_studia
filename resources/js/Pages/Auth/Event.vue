@@ -17,8 +17,9 @@ const form = useForm({
 
 const allRooms = ref({});
 const getAllRooms = async () => {
-  const { data } = await axios.get(route(`rooms.select`));
-  return data.rooms;
+  await axios.get(route(`rooms.select`)).then(({ data }) => {
+    allRooms.value = data;
+  });
 };
 
 const submit = () => {
@@ -39,8 +40,8 @@ const submit = () => {
   });
 };
 
-onMounted(async () => {
-  allRooms.value = await getAllRooms();
+onMounted(() => {
+  getAllRooms();
 });
 </script>
 

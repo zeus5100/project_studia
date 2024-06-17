@@ -51,10 +51,10 @@ const allTeachers = ref({});
 
 const submit = () => {
   form.post(route('activities.store'), {
-    onSuccess: () => {
+    onSuccess: (data) => {
       push.success({
         title: 'Sukces',
-        message: 'Pomyślnie dodano nowe zajęcia!',
+        message: data.message,
       });
       form.reset();
     },
@@ -68,10 +68,10 @@ const submit = () => {
 };
 
 onMounted(async () => {
-  allRooms.value = (await fetchData('rooms')).rooms;
-  allClasses.value = (await fetchData('classes')).classes;
-  allSubjects.value = (await fetchData('subjects')).subjects;
-  allTeachers.value = (await fetchData('teachers')).teachers;
+  allRooms.value = await fetchData('rooms');
+  allClasses.value = await fetchData('classes');
+  allSubjects.value = await fetchData('subjects');
+  allTeachers.value = await fetchData('teachers');
 });
 </script>
 

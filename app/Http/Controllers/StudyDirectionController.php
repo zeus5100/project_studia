@@ -4,40 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StudyDirectionRequest;
 use App\Models\StudyDirection;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class StudyDirectionController extends Controller
 {
     public function index()
     {
-        return response()->json([
-            'directions' => StudyDirection::select('id', 'name', 'created_at', 'updated_at')
-                ->paginate(10),
-        ]);
+        return response()->json(StudyDirection::select('id', 'name', 'created_at', 'updated_at')
+            ->paginate(10));
     }
 
     public function select()
     {
-        return response()->json([
-            'directions' => StudyDirection::select('id', 'name', 'created_at', 'updated_at')
-                ->get(),
-        ]);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(string $id)
-    {
-        //
+        return response()->json(StudyDirection::select('id', 'name')->get());
     }
 
     public function edit(StudyDirection $direction)

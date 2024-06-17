@@ -53,7 +53,7 @@ const loadAnotherPage = (page = 1) => {
       },
     })
     .then(({ data }) => {
-      tableData.value = data[form.table];
+      tableData.value = data;
       if (tableData.value.data.length > 0) {
         tableHeaders.value = Object.keys(tableData.value.data[0]);
       }
@@ -65,7 +65,7 @@ const modalMessage = ref('');
 
 const deleteTableRow = (id) => {
   axios
-    .delete(route(`${form.table}.delete`, { id: id }))
+    .delete(route(`${form.table}.destroy`, { id: id }))
     .then(async ({ data }) => {
       await loadAnotherPage(tablePage.value);
       modalMessage.value = data.message;

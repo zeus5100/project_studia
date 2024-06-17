@@ -4,41 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TeacherController extends Controller
 {
     public function index()
     {
-
-        return response()->json([
-            'teachers' => Teacher::select('id', 'first_name', 'last_name', 'phone')
-                ->paginate(10),
-        ]);
+        return response()->json(Teacher::select('id', 'first_name', 'last_name', 'phone')
+            ->paginate(10));
     }
 
     public function select()
     {
-        return response()->json([
-            'teachers' => Teacher::select('id', 'first_name', 'last_name', 'phone')
-                ->get(),
-        ]);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
+        return response()->json(Teacher::select('id', 'first_name', 'last_name', 'phone')
+            ->get());
     }
 
     public function show(string $id)
     {
-        //
+        //TODO
     }
 
     public function edit(Teacher $teacher)
@@ -65,8 +49,6 @@ class TeacherController extends Controller
                 'message' => 'Nauczyciel został pomyślnie usunięty',
             ]);
         } catch (\Exception $e) {
-            dd($e);
-
             return response()->json([
                 'message' => 'Wystąpił błąd podczas usuwania nauczyciela',
             ], 500);

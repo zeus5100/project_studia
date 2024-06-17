@@ -34,37 +34,37 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/classes', [StudentClassController::class, 'select'])->name('classes.select');
     Route::get('/rooms', [RoomController::class, 'select'])->name('rooms.select');
 
-    Route::name('subjects.')->prefix('/subjects')->group(function () {
+    Route::name('subjects.')->prefix('subjects')->group(function () {
         Route::get('/', [SubjectController::class, 'index'])->name('index');
         Route::get('/select', [SubjectController::class, 'select'])->name('select');
-        Route::delete('/{subject}', [SubjectController::class, 'destroy'])->name('delete');
+        Route::delete('/{subject}', [SubjectController::class, 'destroy'])->name('destroy');
         Route::get('/{subject}/edit', [SubjectController::class, 'edit'])->name('edit');
-        Route::put('/{subject}/update', [SubjectController::class, 'update'])->name('update');
+        Route::put('/{subject}', [SubjectController::class, 'update'])->name('update');
     });
 
-    Route::name('teachers.')->prefix('/teachers')->group(function () {
+    Route::name('teachers.')->prefix('teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'index'])->name('index');
         Route::get('/select', [TeacherController::class, 'select'])->name('select');
-        Route::delete('/{teacher}', [TeacherController::class, 'destroy'])->name('delete');
+        Route::delete('/{teacher}', [TeacherController::class, 'destroy'])->name('destroy');
         Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('edit');
-        Route::put('/{teacher}/update', [TeacherController::class, 'update'])->name('update');
+        Route::put('/{teacher}', [TeacherController::class, 'update'])->name('update');
     });
 
-    Route::name('directions.')->prefix('/directions')->group(function () {
+    Route::name('directions.')->prefix('directions')->group(function () {
         Route::get('/', [StudyDirectionController::class, 'index'])->name('index');
         Route::get('/select', [StudyDirectionController::class, 'select'])->name('select');
-        Route::delete('/{direction}', [StudyDirectionController::class, 'destroy'])->name('delete');
+        Route::delete('/{direction}', [StudyDirectionController::class, 'destroy'])->name('destroy');
         Route::get('/{direction}/edit', [StudyDirectionController::class, 'edit'])->name('edit');
-        Route::put('/{direction}/update', [StudyDirectionController::class, 'update'])->name('update');
+        Route::put('/{direction}', [StudyDirectionController::class, 'update'])->name('update');
     });
 
-    Route::name('events.')->prefix('/events')->group(function () {
-        Route::get('/', [EventController::class, 'create'])->name('create');
+    Route::name('events.')->prefix('events')->group(function () {
+        Route::get('/create', [EventController::class, 'create'])->name('create');
         Route::post('/', [EventController::class, 'store'])->name('store');
     });
 
-    Route::name('activities.')->prefix('/activities')->group(function () {
-        Route::get('/', [ActivityController::class, 'create'])->name('create');
+    Route::name('activities.')->prefix('activities')->group(function () {
+        Route::get('/create', [ActivityController::class, 'create'])->name('create');
         Route::post('/', [ActivityController::class, 'store'])->name('store');
     });
 
