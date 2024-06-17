@@ -182,15 +182,16 @@ onMounted(() => loadAnotherPage(1));
                 </tr>
               </tbody>
             </table>
+
+            <TailwindPagination
+              :limit="1"
+              :keepLength="true"
+              :data="tableData"
+              class="border-1 mt-2"
+              :active-classes="[]"
+              @pagination-change-page="loadAnotherPage"
+            />
           </div>
-          <TailwindPagination
-            :limit="1"
-            :keepLength="true"
-            :data="tableData"
-            class="border-1 mt-2"
-            :active-classes="[]"
-            @pagination-change-page="loadAnotherPage"
-          />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -51,19 +52,21 @@ class SubjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Subject $subject)
     {
-        return Inertia::render('Auth/Subjects/Edit', [
-            'subject' => $id,
+        return Inertia::render('Auth/Subject/Edit', [
+            'subject' => $subject,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SubjectRequest $request, Subject $subject)
     {
-        //
+        $subject->update($request->validated());
+
+        return redirect()->route('admin.manage', ['table' => 'subjects']);
     }
 
     /**

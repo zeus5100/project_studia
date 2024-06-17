@@ -27,7 +27,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
     Tworzenie zajęć
   </ResponsiveNavLink>
   <ResponsiveNavLink
-    :href="route('admin.manage')"
+    :href="route('admin.manage', { table: 'teachers' })"
     :active="route().current('admin.manage')"
   >
     Zarządzaj

@@ -33,10 +33,12 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/classes', [StudentClassController::class, 'index']);
     Route::get('/rooms', [RoomController::class, 'index']);
 
-    Route::get('/subjects', [SubjectController::class, 'index']);
-    Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy']);
-    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
-    Route::put('/subjects/{subject}/update', [SubjectController::class, 'update'])->name('subjects.update');
+    Route::prefix('/subjects')->group(function () {
+        Route::get('/', [SubjectController::class, 'index']);
+        Route::delete('/{subject}', [SubjectController::class, 'destroy']);
+        Route::get('/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+        Route::put('/{subject}/update', [SubjectController::class, 'update'])->name('subjects.update');
+    });
 
     Route::prefix('/teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'index']);
