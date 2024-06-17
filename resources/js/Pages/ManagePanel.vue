@@ -65,8 +65,8 @@ const modalMessage = ref('');
 const deleteTableRow = (id) => {
   axios
     .delete(`/${form.table}/${id}`)
-    .then(({ data }) => {
-      loadAnotherPage(tablePage.value);
+    .then(async ({ data }) => {
+      await loadAnotherPage(tablePage.value);
       modalMessage.value = data.message;
       modalVisible.value = true;
     })

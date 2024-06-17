@@ -5,7 +5,6 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
 
 const props = defineProps({
   teacher: {
@@ -23,7 +22,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.put(route('teachers.update', { teacher: props.teacher.id }), {});
+  form.put(route('teachers.update', { teacher: props.teacher.id }));
 };
 </script>
 
@@ -73,7 +72,6 @@ const submit = () => {
           class="mt-1 block w-full"
           v-model="form.last_name"
           required
-          autofocus
           autocomplete="last_name"
         />
 
@@ -89,7 +87,6 @@ const submit = () => {
           class="mt-1 block w-full"
           v-model="form.phone"
           required
-          autofocus
           autocomplete="phone"
         />
 

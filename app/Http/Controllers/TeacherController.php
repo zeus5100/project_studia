@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -60,20 +61,15 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(TeacherRequest $request, Teacher $teacher)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
-            'last_name' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
-            'phone' => 'string|max:20',
-            'comments' => 'nullable|string',
-        ]);
 
+        $validated = $request->validated();
         $teacher->update([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'phone' => $request->input('phone'),
-            'comments' => $request->input('comments'),
+            'first_name' => $validated->input('first_name'),
+            'last_name' => $validated->input('last_name'),
+            'phone' => $validated->input('phone'),
+            'comments' => $validated->input('comments'),
         ]);
 
         return redirect()->route('admin.manage', ['table' => 'teachers']);
