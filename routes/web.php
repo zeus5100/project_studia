@@ -36,11 +36,14 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/subjects', [SubjectController::class, 'index']);
     Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy']);
     Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+    Route::put('/subjects/{subject}/update', [SubjectController::class, 'update'])->name('subjects.update');
 
-    Route::get('/teachers', [TeacherController::class, 'index']);
-    Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy']);
-    Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
-    Route::put('/teachers/{teacher}/update', [TeacherController::class, 'update'])->name('teachers.update');
+    Route::prefix('/teachers')->group(function () {
+        Route::get('/', [TeacherController::class, 'index']);
+        Route::delete('/{teacher}', [TeacherController::class, 'destroy']);
+        Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
+        Route::put('/{teacher}/update', [TeacherController::class, 'update'])->name('teachers.update');
+    });
 
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');

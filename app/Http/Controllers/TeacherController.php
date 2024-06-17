@@ -64,13 +64,7 @@ class TeacherController extends Controller
     public function update(TeacherRequest $request, Teacher $teacher)
     {
 
-        $validated = $request->validated();
-        $teacher->update([
-            'first_name' => $validated->input('first_name'),
-            'last_name' => $validated->input('last_name'),
-            'phone' => $validated->input('phone'),
-            'comments' => $validated->input('comments'),
-        ]);
+        $teacher->update($request->validated());
 
         return redirect()->route('admin.manage', ['table' => 'teachers']);
     }
