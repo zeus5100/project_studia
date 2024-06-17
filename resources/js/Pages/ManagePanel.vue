@@ -28,6 +28,7 @@ const tableList = ref([
   { name: 'teachers', text: 'Nauczyciele' },
   { name: 'subjects', text: 'Przedmioty' },
   { name: 'classes', text: 'Klasy' },
+  { name: 'directions', text: 'Kierunki' },
 ]);
 
 const tableData = ref({});

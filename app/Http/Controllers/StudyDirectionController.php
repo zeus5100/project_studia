@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubjectRequest;
-use App\Models\Subject;
+use App\Http\Requests\StudyDirectionRequest;
+use App\Models\StudyDirection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class SubjectController extends Controller
+class StudyDirectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +15,15 @@ class SubjectController extends Controller
     public function index(Request $request)
     {
         if ($request->has('page')) {
-            $subjects = Subject::select('id', 'name', 'created_at', 'updated_at')->paginate(10);
+            $directions = StudyDirection::select('id', 'name', 'created_at', 'updated_at')
+                ->paginate(10);
         } else {
-            $subjects = Subject::select('id', 'name', 'created_at', 'updated_at')->get();
+            $directions = StudyDirection::select('id', 'name', 'created_at', 'updated_at')
+                ->get();
         }
 
         return response()->json([
-            'subjects' => $subjects,
+            'directions' => $directions,
         ]);
     }
 
@@ -52,30 +54,30 @@ class SubjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Subject $subject)
+    public function edit(StudyDirection $direction)
     {
-        return Inertia::render('Auth/Subject/Edit', [
-            'subject' => $subject,
+        return Inertia::render('Auth/StudyDirection/Edit', [
+            'direction' => $direction,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(SubjectRequest $request, Subject $subject)
+    public function update(StudyDirectionRequest $request, StudyDirection $direction)
     {
-        $subject->update($request->validated());
+        $direction->update($request->validated());
 
-        return redirect()->route('admin.manage', ['table' => 'subjects']);
+        return redirect()->route('admin.manage', ['table' => 'directions']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subject $subject)
+    public function destroy(StudyDirection $direction)
     {
         try {
-            $subject->delete();
+            $direction->delete();
 
             return response()->json(['message' => 'Przedmiot został pomyślnie usunięty'], 200);
         } catch (\Exception $e) {

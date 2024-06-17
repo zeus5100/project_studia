@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentClassController;
+use App\Http\Controllers\StudyDirectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Foundation\Application;
@@ -45,6 +46,13 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         Route::delete('/{teacher}', [TeacherController::class, 'destroy']);
         Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
         Route::put('/{teacher}/update', [TeacherController::class, 'update'])->name('teachers.update');
+    });
+
+    Route::prefix('/directions')->group(function () {
+        Route::get('/', [StudyDirectionController::class, 'index']);
+        Route::delete('/{direction}', [StudyDirectionController::class, 'destroy']);
+        Route::get('/{direction}/edit', [StudyDirectionController::class, 'edit'])->name('directions.edit');
+        Route::put('/{direction}/update', [StudyDirectionController::class, 'update'])->name('directions.update');
     });
 
     Route::get('register', [RegisteredUserController::class, 'create'])
