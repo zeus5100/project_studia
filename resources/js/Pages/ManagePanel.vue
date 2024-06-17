@@ -7,14 +7,21 @@ import { Link } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 import DashboardNav from '@/Components/DashboardNav.vue';
 import Modal from '@/Components/Modal.vue';
 import ResponsiveDashboardNav from '@/Components/ResponsiveDashboardNav.vue';
 
+const props = defineProps({
+  table: {
+    type: String,
+    required: false,
+  },
+});
+
 const form = useForm({
-  table: '',
+  table: props.table || 'teachers',
 });
 
 const tableList = ref([
@@ -26,8 +33,8 @@ const tableList = ref([
 const tableData = ref({});
 const tableHeaders = ref({});
 
-const submit = async () => {
-  loadAnotherPage(1);
+const submit = () => {
+  window.location.href = route(`admin.manage`, { table: form.table });
 };
 
 const formatHeader = (header) => {
@@ -36,9 +43,9 @@ const formatHeader = (header) => {
 
 const tablePage = ref(1);
 
-const loadAnotherPage = async (page = 1) => {
+const loadAnotherPage = (page = 1) => {
   tablePage.value = page;
-  await axios
+  axios
     .get(`/${form.table}`, {
       params: {
         page: page,
@@ -58,8 +65,8 @@ const modalMessage = ref('');
 const deleteTableRow = (id) => {
   axios
     .delete(`/${form.table}/${id}`)
-    .then(({ data }) => {
-      loadAnotherPage(tablePage.value);
+    .then(async ({ data }) => {
+      await loadAnotherPage(tablePage.value);
       modalMessage.value = data.message;
       modalVisible.value = true;
     })
@@ -67,6 +74,8 @@ const deleteTableRow = (id) => {
       console.log('Wystąpił error: ' + response);
     });
 };
+
+onMounted(() => loadAnotherPage(1));
 </script>
 
 <template>
@@ -159,7 +168,7 @@ const deleteTableRow = (id) => {
                   </td>
                   <td class="whitespace-nowrap text-sm font-medium">
                     <Link
-                      :href="route('subjects.edit', { subject: row.id })"
+                      :href="route(`${form.table}.edit`, { id: row.id })"
                       class="inline-flex items-center px-4 mx-2 py-2 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 bg-orange-300"
                     >
                       Edytuj
@@ -173,15 +182,16 @@ const deleteTableRow = (id) => {
                 </tr>
               </tbody>
             </table>
+
+            <TailwindPagination
+              :limit="1"
+              :keepLength="true"
+              :data="tableData"
+              class="border-1 mt-2"
+              :active-classes="[]"
+              @pagination-change-page="loadAnotherPage"
+            />
           </div>
-          <TailwindPagination
-            :limit="1"
-            :keepLength="true"
-            :data="tableData"
-            class="border-1 mt-2"
-            :active-classes="[]"
-            @pagination-change-page="loadAnotherPage"
-          />
         </div>
       </div>
     </div>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TeacherController extends Controller
 {
@@ -49,17 +51,22 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Teacher $teacher)
     {
-        //
+        return Inertia::render('Auth/Teacher/Edit', [
+            'teacher' => $teacher,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TeacherRequest $request, Teacher $teacher)
     {
-        //
+
+        $teacher->update($request->validated());
+
+        return redirect()->route('admin.manage', ['table' => 'teachers']);
     }
 
     /**

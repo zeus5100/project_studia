@@ -26,19 +26,26 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         return Inertia::render('AdministratorPanel');
     })->name('admin.dashboard');
 
-    Route::get('/admin/manage', function () {
-        return Inertia::render('ManagePanel');
+    Route::get('/admin/manage/{table}', function ($table) {
+        return Inertia::render('ManagePanel', ['table' => $table]);
     })->name('admin.manage');
 
     Route::get('/classes', [StudentClassController::class, 'index']);
     Route::get('/rooms', [RoomController::class, 'index']);
 
-    Route::get('/subjects', [SubjectController::class, 'index']);
-    Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy']);
-    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+    Route::prefix('/subjects')->group(function () {
+        Route::get('/', [SubjectController::class, 'index']);
+        Route::delete('/{subject}', [SubjectController::class, 'destroy']);
+        Route::get('/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+        Route::put('/{subject}/update', [SubjectController::class, 'update'])->name('subjects.update');
+    });
 
-    Route::get('/teachers', [TeacherController::class, 'index']);
-    Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy']);
+    Route::prefix('/teachers')->group(function () {
+        Route::get('/', [TeacherController::class, 'index']);
+        Route::delete('/{teacher}', [TeacherController::class, 'destroy']);
+        Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
+        Route::put('/{teacher}/update', [TeacherController::class, 'update'])->name('teachers.update');
+    });
 
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
@@ -52,6 +59,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         ->name('activity');
     Route::post('activity', [ActivityController::class, 'store']);
 });
+
 Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::get('/teacher/dashboard', function () {
         return Inertia::render('TeacherPanel');

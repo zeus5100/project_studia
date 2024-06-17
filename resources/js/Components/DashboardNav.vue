@@ -21,8 +21,8 @@ import NavLink from '@/Components/NavLink.vue';
     Tworzenie zajęć
   </NavLink>
   <NavLink
-    :href="route('admin.manage')"
-    :active="route().current('admin.manage')"
+    :href="route('admin.manage', { table: 'teachers' })"
+    :active="route().current('admin.manage', { table: 'teachers' })"
   >
     Zarządzaj
   </NavLink>
