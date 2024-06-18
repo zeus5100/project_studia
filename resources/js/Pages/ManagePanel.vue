@@ -28,6 +28,7 @@ const tableList = ref([
   { name: 'teachers', text: 'Nauczyciele' },
   { name: 'subjects', text: 'Przedmioty' },
   { name: 'classes', text: 'Klasy' },
+  { name: 'directions', text: 'Kierunki' },
 ]);
 
 const tableData = ref({});
@@ -46,13 +47,13 @@ const tablePage = ref(1);
 const loadAnotherPage = (page = 1) => {
   tablePage.value = page;
   axios
-    .get(`/${form.table}`, {
+    .get(route(`${form.table}.index`), {
       params: {
         page: page,
       },
     })
     .then(({ data }) => {
-      tableData.value = data[form.table];
+      tableData.value = data;
       if (tableData.value.data.length > 0) {
         tableHeaders.value = Object.keys(tableData.value.data[0]);
       }
@@ -64,7 +65,7 @@ const modalMessage = ref('');
 
 const deleteTableRow = (id) => {
   axios
-    .delete(`/${form.table}/${id}`)
+    .delete(route(`${form.table}.destroy`, { id: id }))
     .then(async ({ data }) => {
       await loadAnotherPage(tablePage.value);
       modalMessage.value = data.message;

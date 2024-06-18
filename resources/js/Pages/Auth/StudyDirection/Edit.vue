@@ -7,19 +7,19 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-  subject: {
+  direction: {
     type: Object,
     required: true,
   },
 });
 
 const form = useForm({
-  identifier: props.subject.id.toString(),
-  name: props.subject.name,
+  identifier: props.direction.id.toString(),
+  name: props.direction.name,
 });
 
 const submit = () => {
-  form.put(route('subjects.update', { subject: props.subject.id }));
+  form.put(route('directions.update', { direction: props.direction.id }));
 };
 </script>
 
@@ -41,11 +41,11 @@ const submit = () => {
           autocomplete="identifier"
         />
 
-        <InputError class="mt-2" :message="form.errors.identyficator" />
+        <InputError class="mt-2" :message="form.errors.identifier" />
       </div>
 
       <div class="mt-4">
-        <InputLabel for="name" value="Nazwa przedmiotu" />
+        <InputLabel for="name" value="Nazwa kierunku" />
 
         <TextInput
           id="name"
@@ -62,7 +62,7 @@ const submit = () => {
 
       <div class="flex items-center justify-end mt-4">
         <Link
-          :href="route('admin.manage', { table: 'subjects' })"
+          :href="route('admin.manage', { table: 'directions' })"
           class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
           Powrót do zarządzania

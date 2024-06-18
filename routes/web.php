@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentClassController;
+use App\Http\Controllers\StudyDirectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Foundation\Application;
@@ -30,34 +31,46 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         return Inertia::render('ManagePanel', ['table' => $table]);
     })->name('admin.manage');
 
-    Route::get('/classes', [StudentClassController::class, 'index']);
-    Route::get('/rooms', [RoomController::class, 'index']);
+    Route::get('/classes', [StudentClassController::class, 'select'])->name('classes.select');
+    Route::get('/rooms', [RoomController::class, 'select'])->name('rooms.select');
 
-    Route::prefix('/subjects')->group(function () {
-        Route::get('/', [SubjectController::class, 'index']);
-        Route::delete('/{subject}', [SubjectController::class, 'destroy']);
-        Route::get('/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
-        Route::put('/{subject}/update', [SubjectController::class, 'update'])->name('subjects.update');
+    Route::name('subjects.')->prefix('subjects')->group(function () {
+        Route::get('/', [SubjectController::class, 'index'])->name('index');
+        Route::get('/select', [SubjectController::class, 'select'])->name('select');
+        Route::delete('/{subject}', [SubjectController::class, 'destroy'])->name('destroy');
+        Route::get('/{subject}/edit', [SubjectController::class, 'edit'])->name('edit');
+        Route::put('/{subject}', [SubjectController::class, 'update'])->name('update');
     });
 
-    Route::prefix('/teachers')->group(function () {
-        Route::get('/', [TeacherController::class, 'index']);
-        Route::delete('/{teacher}', [TeacherController::class, 'destroy']);
-        Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
-        Route::put('/{teacher}/update', [TeacherController::class, 'update'])->name('teachers.update');
+    Route::name('teachers.')->prefix('teachers')->group(function () {
+        Route::get('/', [TeacherController::class, 'index'])->name('index');
+        Route::get('/select', [TeacherController::class, 'select'])->name('select');
+        Route::delete('/{teacher}', [TeacherController::class, 'destroy'])->name('destroy');
+        Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('edit');
+        Route::put('/{teacher}', [TeacherController::class, 'update'])->name('update');
+    });
+
+    Route::name('directions.')->prefix('directions')->group(function () {
+        Route::get('/', [StudyDirectionController::class, 'index'])->name('index');
+        Route::get('/select', [StudyDirectionController::class, 'select'])->name('select');
+        Route::delete('/{direction}', [StudyDirectionController::class, 'destroy'])->name('destroy');
+        Route::get('/{direction}/edit', [StudyDirectionController::class, 'edit'])->name('edit');
+        Route::put('/{direction}', [StudyDirectionController::class, 'update'])->name('update');
+    });
+
+    Route::name('events.')->prefix('events')->group(function () {
+        Route::get('/create', [EventController::class, 'create'])->name('create');
+        Route::post('/', [EventController::class, 'store'])->name('store');
+    });
+
+    Route::name('activities.')->prefix('activities')->group(function () {
+        Route::get('/create', [ActivityController::class, 'create'])->name('create');
+        Route::post('/', [ActivityController::class, 'store'])->name('store');
     });
 
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
-
-    Route::get('event', [EventController::class, 'create'])
-        ->name('event');
-    Route::post('event', [EventController::class, 'store']);
-
-    Route::get('activity', [ActivityController::class, 'create'])
-        ->name('activity');
-    Route::post('activity', [ActivityController::class, 'store']);
 });
 
 Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {

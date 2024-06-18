@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubjectRequest extends FormRequest
+class ActivityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,13 @@ class SubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
+            'room_id' => 'required|exists:rooms,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'student_class_id' => 'required|exists:student_classes,id',
+            'teacher_id' => 'required|exists:teachers,id',
+            'start_time' => 'required|date_format:H:i:s',
+            'end_time' => 'required|date_format:H:i:s|after:start_time',
+            'day_of_week' => 'required|integer|between:1,5',
         ];
     }
 }

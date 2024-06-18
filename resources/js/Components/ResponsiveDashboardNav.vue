@@ -16,13 +16,16 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
     Rejestracja użytkownika
   </ResponsiveNavLink>
 
-  <ResponsiveNavLink :href="route('event')" :active="route().current('event')">
+  <ResponsiveNavLink
+    :href="route('events.create')"
+    :active="route().current('events.create')"
+  >
     Rejestracja wydarzenia
   </ResponsiveNavLink>
 
   <ResponsiveNavLink
-    :href="route('activity')"
-    :active="route().current('activity')"
+    :href="route('activities.create')"
+    :active="route().current('activities.create')"
   >
     Tworzenie zajęć
   </ResponsiveNavLink>
