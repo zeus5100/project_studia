@@ -46,7 +46,7 @@ class SubjectController extends Controller
     {
         $subject->update($request->validated());
 
-        return redirect()->route('admin.manage', ['table' => 'subjects']);
+        return redirect()->route('admin.manage', ['table' => 'subjects'])->with('notification', 'przedmiot');
     }
 
     public function destroy(Subject $subject)

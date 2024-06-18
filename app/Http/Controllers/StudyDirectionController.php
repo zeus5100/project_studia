@@ -30,7 +30,7 @@ class StudyDirectionController extends Controller
     {
         $direction->update($request->validated());
 
-        return redirect()->route('admin.manage', ['table' => 'directions']);
+        return redirect()->route('admin.manage', ['table' => 'directions'])->with('notification', 'kierunek');
     }
 
     public function destroy(StudyDirection $direction)

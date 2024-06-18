@@ -28,11 +28,20 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     })->name('admin.dashboard');
 
     Route::get('/admin/manage/{table}', function ($table) {
-        return Inertia::render('ManagePanel', ['table' => $table]);
+        return Inertia::render('ManagePanel', [
+            'table' => $table,
+            'notification' => session('notification'),
+        ]);
     })->name('admin.manage');
 
-    Route::get('/classes', [StudentClassController::class, 'select'])->name('classes.select');
     Route::get('/rooms', [RoomController::class, 'select'])->name('rooms.select');
+
+    Route::name('classes.')->prefix('classes')->group(function () {
+        Route::get('/', [StudentClassController::class, 'index'])->name('index');
+        Route::get('/select', [StudentClassController::class, 'select'])->name('select');
+        Route::get('/{studentClass}/edit', [StudentClassController::class, 'edit'])->name('edit');
+        Route::put('/{studentClass}', [StudentClassController::class, 'update'])->name('update');
+    });
 
     Route::name('subjects.')->prefix('subjects')->group(function () {
         Route::get('/', [SubjectController::class, 'index'])->name('index');

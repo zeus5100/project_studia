@@ -22,7 +22,7 @@ class StudentClass extends Model
 
     public function teacher(): HasOne
     {
-        return $this->hasOne(Teacher::class);
+        return $this->hasOne(Teacher::class, 'id', 'teacher_id');
     }
 
     public function direction(): HasOne
