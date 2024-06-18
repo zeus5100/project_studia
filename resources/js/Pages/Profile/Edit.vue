@@ -7,6 +7,8 @@ import { Head } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import NavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import DashboardNav from '@/Components/DashboardNav.vue';
+import ResponsiveDashboardNav from '@/Components/ResponsiveDashboardNav.vue';
 defineProps({
   mustVerifyEmail: {
     type: Boolean,
@@ -38,26 +40,11 @@ defineProps({
     </template>
 
     <template #nav>
-      <NavLink
-        :href="route('admin.dashboard')"
-        :active="route().current('admin.dashboard')"
-      >
-        Panel Główny
-      </NavLink>
-      <NavLink :href="route('register')" :active="route().current('register')">
-        Rejestracja użytkownika
-      </NavLink>
+      <DashboardNav />
+    </template>
 
-      <NavLink :href="route('event')" :active="route().current('event')">
-        Rejestracja wydarzenia
-      </NavLink>
-
-      <NavLink :href="route('activity')" :active="route().current('activity')">
-        Tworzenie zajęć
-      </NavLink>
-      <NavLink :href="route('register')" :active="route().current('register')">
-        Zarządzaj
-      </NavLink>
+    <template #responsiveNav>
+      <ResponsiveDashboardNav />
     </template>
 
     <div class="py-12">

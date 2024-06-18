@@ -32,14 +32,14 @@ class UserSeeder extends Seeder
         $teacher = User::updateOrCreate(
             ['email' => 'teacher@example.com'],
             [
-                'login' => 'testTeacher',
+                'login' => 'teacher',
                 'password' => Hash::make('password'),
             ]
         );
         $teacher->teacher()->updateOrCreate([
-            'first_name' => 'testTeacher',
-            'last_name' => 'testTeacher',
-            'phone' => 'testTeacher',
+            'first_name' => 'Marcel',
+            'last_name' => 'Kaliński',
+            'phone' => '+48 400 400 200',
         ]);
         $teacherRole = Role::where('name', 'teacher')->first();
 

@@ -22,11 +22,11 @@ class StudentClass extends Model
 
     public function teacher(): BelongsTo
     {
-        return $this->BelongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class);
     }
 
     public function direction(): BelongsTo
     {
-        return $this->BelongsTo(StudyDirection::class);
+        return $this->belongsTo(StudyDirection::class);
     }
 }

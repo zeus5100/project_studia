@@ -6,8 +6,13 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
-
-import { Notivue, Notification, NotificationProgress, push } from 'notivue';
+import {
+  Notivue,
+  Notification,
+  NotivueSwipe,
+  NotificationProgress,
+  push,
+} from 'notivue';
 
 const form = useForm({
   student_class_id: '',
@@ -80,9 +85,11 @@ onMounted(async () => {
     <Head title="Tworzenie wydarzenia" />
 
     <Notivue v-slot="item">
-      <Notification :item="item">
-        <NotificationProgress :item="item" />
-      </Notification>
+      <NotivueSwipe :item="item">
+        <Notification :item="item">
+          <NotificationProgress :item="item" />
+        </Notification>
+      </NotivueSwipe>
     </Notivue>
     <form @submit.prevent="submit">
       <div>

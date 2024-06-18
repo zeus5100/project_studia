@@ -6,6 +6,13 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
+import {
+  Notivue,
+  Notification,
+  NotivueSwipe,
+  NotificationProgress,
+  push,
+} from 'notivue';
 
 const form = useForm({
   first_name: '',
@@ -34,6 +41,22 @@ const getAllClasses = async () => {
 
 const submit = () => {
   form.post(route('register'), {
+    onSuccess: () => {
+      push.success({
+        title: 'Sukces',
+        message:
+          'Pomyślnie dodano nowego użytkownika(' +
+          optionsRole.value[form.selected_role - 1].text +
+          ')',
+      });
+      form.reset();
+    },
+    onError: () => {
+      push.error({
+        title: 'Błąd',
+        message: 'Nie wszystkie pola zostały poprawnie wypełnione',
+      });
+    },
     onFinish: () => form.reset('password', 'password_confirmation'),
   });
 };
@@ -46,7 +69,13 @@ onMounted(() => {
 <template>
   <GuestLayout>
     <Head title="Rejestracja użytkownika" />
-
+    <Notivue v-slot="item">
+      <NotivueSwipe :item="item">
+        <Notification :item="item">
+          <NotificationProgress :item="item" />
+        </Notification>
+      </NotivueSwipe>
+    </Notivue>
     <form @submit.prevent="submit">
       <div>
         <InputLabel for="selected_role" value="Wybierz role" />
