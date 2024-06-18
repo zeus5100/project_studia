@@ -41,7 +41,7 @@ const submit = () => {
           autocomplete="identifier"
         />
 
-        <InputError class="mt-2" :message="form.errors.identyficator" />
+        <InputError class="mt-2" :message="form.errors.identifier" />
       </div>
 
       <div class="mt-4">

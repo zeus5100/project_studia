@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const form = useForm({
-  identyficator: props.teacher.id.toString(),
+  identifier: props.teacher.id.toString(),
   first_name: props.teacher.first_name,
   last_name: props.teacher.last_name,
   phone: props.teacher.phone,
@@ -32,19 +32,19 @@ const submit = () => {
 
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="identyficator" value="Identyfikator nauczyciela" />
+        <InputLabel for="identifier" value="Identyfikator nauczyciela" />
 
         <TextInput
-          id="identyficator"
+          id="identifier"
           type="text"
           class="mt-1 block w-full"
-          v-model="form.identyficator"
+          v-model="form.identifier"
           required
           readonly
-          autocomplete="identyficator"
+          autocomplete="identifier"
         />
 
-        <InputError class="mt-2" :message="form.errors.identyficator" />
+        <InputError class="mt-2" :message="form.errors.identifier" />
       </div>
 
       <div class="mt-4">

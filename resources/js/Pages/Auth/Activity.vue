@@ -51,10 +51,10 @@ const allTeachers = ref({});
 
 const submit = () => {
   form.post(route('activities.store'), {
-    onSuccess: (data) => {
+    onSuccess: () => {
       push.success({
         title: 'Sukces',
-        message: data.message,
+        message: 'Pomyślnie dodano nowe zajęcia!',
       });
       form.reset();
     },

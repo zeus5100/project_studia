@@ -12,9 +12,20 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import DashboardNav from '@/Components/DashboardNav.vue';
 import Modal from '@/Components/Modal.vue';
 import ResponsiveDashboardNav from '@/Components/ResponsiveDashboardNav.vue';
+import {
+  Notivue,
+  Notification,
+  NotivueSwipe,
+  NotificationProgress,
+  push,
+} from 'notivue';
 
 const props = defineProps({
   table: {
+    type: String,
+    required: false,
+  },
+  notification: {
     type: String,
     required: false,
   },
@@ -75,13 +86,27 @@ const deleteTableRow = (id) => {
       console.log('Wystąpił error: ' + response);
     });
 };
-
-onMounted(() => loadAnotherPage(1));
+onMounted(() => {
+  loadAnotherPage(1);
+  if (props.notification) {
+    push.success({
+      title: 'Sukces',
+      message: 'Pomyślnie zaktualizowano ' + props.notification,
+    });
+  }
+});
 </script>
 
 <template>
   <Head title="Strona Główna" />
   <AuthenticatedLayout>
+    <Notivue v-slot="item">
+      <NotivueSwipe :item="item">
+        <Notification :item="item">
+          <NotificationProgress :item="item" />
+        </Notification>
+      </NotivueSwipe>
+    </Notivue>
     <Modal :show="modalVisible" maxWidth="2xl" @close="modalVisible = false">
       <template #default>
         <div class="p-6 w-full">
@@ -146,7 +171,7 @@ onMounted(() => loadAnotherPage(1));
             >
               Wybrana tabela nie zawiera żadnych rekordów
             </p>
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 dark:bg-gray-900">
               <thead>
                 <tr>
                   <th

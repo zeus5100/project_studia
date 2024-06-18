@@ -20,11 +20,6 @@ class TeacherController extends Controller
             ->get());
     }
 
-    public function show(string $id)
-    {
-        //TODO
-    }
-
     public function edit(Teacher $teacher)
     {
         return Inertia::render('Auth/Teacher/Edit', [
@@ -34,10 +29,10 @@ class TeacherController extends Controller
 
     public function update(TeacherRequest $request, Teacher $teacher)
     {
-
         $teacher->update($request->validated());
 
-        return redirect()->route('admin.manage', ['table' => 'teachers']);
+        return redirect()->route('admin.manage', ['table' => 'teachers'])
+            ->with('notification', 'nauczyciela');
     }
 
     public function destroy(Teacher $teacher)
