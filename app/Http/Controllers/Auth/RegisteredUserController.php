@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +13,6 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): Response
     {
         return Inertia::render('Auth/Register');
@@ -28,7 +23,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'login' => 'required|string|max:255',
@@ -56,10 +51,6 @@ class RegisteredUserController extends Controller
                     'phone' => $request->phone,
                     'comments' => $request->comments,
                 ]);
-
-                event(new Registered($user));
-
-                return redirect()->route('teacher.dashboard');
             }
 
             if ($request->selected_role == 2) {
@@ -69,9 +60,6 @@ class RegisteredUserController extends Controller
                     'comments' => $request->comments,
                     'student_class_id' => $request->class_id,
                 ]);
-                event(new Registered($user));
-
-                //TODO PRZEKIEROWANIE NA STRONE UCZNIA
             }
         });
     }
