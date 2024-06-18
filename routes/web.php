@@ -23,9 +23,8 @@ Route::get('/', function () {
 })->name('main');
 
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('AdministratorPanel');
-    })->name('admin.dashboard');
+
+    Route::inertia('/admin/dashboard', 'AdministratorPanel')->name('admin.dashboard');
 
     Route::get('/admin/manage/{table}', function ($table) {
         return Inertia::render('ManagePanel', [
@@ -83,9 +82,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
-    Route::get('/teacher/dashboard', function () {
-        return Inertia::render('TeacherPanel');
-    })->name('teacher.dashboard');
+    Route::inertia('/teacher/dashboard', 'TeacherPanel')->name('teacher.dashboard');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

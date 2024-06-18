@@ -23,7 +23,6 @@ class StudentClassController extends Controller
 
     public function edit(StudentClass $studentClass)
     {
-
         return Inertia::render('Auth/Classes/Edit', [
             'student_class' => $studentClass->load('direction', 'teacher'),
             'directions' => StudyDirection::all(),
@@ -33,7 +32,6 @@ class StudentClassController extends Controller
 
     public function update(StudentClassRequest $request, StudentClass $studentClass)
     {
-
         $studentClass->update($request->validated());
 
         return redirect()->route('admin.manage', ['table' => 'classes'])->with('notification', 'klasę');

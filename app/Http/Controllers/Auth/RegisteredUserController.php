@@ -56,6 +56,10 @@ class RegisteredUserController extends Controller
                     'phone' => $request->phone,
                     'comments' => $request->comments,
                 ]);
+
+                event(new Registered($user));
+
+                return redirect()->route('teacher.dashboard');
             }
 
             if ($request->selected_role == 2) {
@@ -65,11 +69,10 @@ class RegisteredUserController extends Controller
                     'comments' => $request->comments,
                     'student_class_id' => $request->class_id,
                 ]);
+                event(new Registered($user));
+
+                //TODO PRZEKIEROWANIE NA STRONE UCZNIA
             }
-
-            event(new Registered($user));
         });
-
-        return redirect()->route('dashboard');
     }
 }

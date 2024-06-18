@@ -20,9 +20,5 @@ class ActivityController extends Controller
     public function store(ActivityRequest $request)
     {
         Activity::create($request->validated());
-
-        return response()->json([
-            'message' => 'Pomyślnie dodano nowe zajęcie!',
-        ]);
     }
 }

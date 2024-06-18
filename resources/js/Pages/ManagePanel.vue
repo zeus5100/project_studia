@@ -171,7 +171,7 @@ onMounted(() => {
             >
               Wybrana tabela nie zawiera żadnych rekordów
             </p>
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 dark:bg-gray-900">
               <thead>
                 <tr>
                   <th

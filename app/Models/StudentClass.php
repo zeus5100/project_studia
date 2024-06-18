@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StudentClass extends Model
@@ -20,13 +20,13 @@ class StudentClass extends Model
         'teacher_id',
     ];
 
-    public function teacher(): HasOne
+    public function teacher(): BelongsTo
     {
-        return $this->hasOne(Teacher::class, 'id', 'teacher_id');
+        return $this->BelongsTo(Teacher::class);
     }
 
-    public function direction(): HasOne
+    public function direction(): BelongsTo
     {
-        return $this->hasOne(StudyDirection::class, 'id', 'study_direction_id');
+        return $this->BelongsTo(StudyDirection::class);
     }
 }
