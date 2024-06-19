@@ -41,6 +41,9 @@ const tableList = ref([
   { name: 'classes', text: 'Klasy' },
   { name: 'directions', text: 'Kierunki' },
   { name: 'students', text: 'Uczniowie' },
+  { name: 'attendanceStatuses', text: 'Stany frekwencji' },
+  { name: 'rooms', text: 'Sale' },
+  { name: 'activities', text: 'Zajęcia' },
 ]);
 
 const tableData = ref({});

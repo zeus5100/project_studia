@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AttendanceStatusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
@@ -73,6 +74,30 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         Route::delete('/{direction}', [StudyDirectionController::class, 'destroy'])->name('destroy');
         Route::get('/{direction}/edit', [StudyDirectionController::class, 'edit'])->name('edit');
         Route::put('/{direction}', [StudyDirectionController::class, 'update'])->name('update');
+    });
+
+    Route::name('attendanceStatuses.')->prefix('attendanceStatuses')->group(function () {
+        Route::get('/', [AttendanceStatusController::class, 'index'])->name('index');
+        Route::get('/select', [AttendanceStatusController::class, 'select'])->name('select');
+        Route::delete('/{attendanceStatus}', [AttendanceStatusController::class, 'destroy'])->name('destroy');
+        Route::get('/{attendanceStatus}/edit', [AttendanceStatusController::class, 'edit'])->name('edit');
+        Route::put('/{attendanceStatus}', [AttendanceStatusController::class, 'update'])->name('update');
+    });
+
+    Route::name('activities.')->prefix('activities')->group(function () {
+        Route::get('/', [ActivityController::class, 'index'])->name('index');
+        Route::get('/select', [ActivityController::class, 'select'])->name('select');
+        Route::delete('/{activity}', [ActivityController::class, 'destroy'])->name('destroy');
+        Route::get('/{activity}/edit', [ActivityController::class, 'edit'])->name('edit');
+        Route::put('/{activity}', [ActivityController::class, 'update'])->name('update');
+    });
+
+    Route::name('rooms.')->prefix('rooms')->group(function () {
+        Route::get('/', [RoomController::class, 'index'])->name('index');
+        Route::get('/select', [RoomController::class, 'select'])->name('select');
+        Route::delete('/{room}', [RoomController::class, 'destroy'])->name('destroy');
+        Route::get('/{room}/edit', [RoomController::class, 'edit'])->name('edit');
+        Route::put('/{room}', [RoomController::class, 'update'])->name('update');
     });
 
     Route::name('events.')->prefix('events')->group(function () {
