@@ -7,32 +7,31 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-  teacher: {
+  room: {
     type: Object,
     required: true,
   },
 });
 
 const form = useForm({
-  identifier: props.teacher.id.toString(),
-  first_name: props.teacher.first_name,
-  last_name: props.teacher.last_name,
-  phone: props.teacher.phone,
-  comments: props.teacher.comments,
+  identifier: props.room.id.toString(),
+  room_number: props.room.room_number,
+  capacity: props.room.capacity,
+  description: props.room.description,
 });
 
 const submit = () => {
-  form.put(route('teachers.update', { teacher: props.teacher.id }));
+  form.put(route('rooms.update', { room: props.room.id }));
 };
 </script>
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
+    <Head title="Edycja sali" />
 
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="identifier" value="Identyfikator nauczyciela" />
+        <InputLabel for="identifier" value="Identyfikator sali" />
 
         <TextInput
           id="identifier"
@@ -46,67 +45,52 @@ const submit = () => {
       </div>
 
       <div class="mt-4">
-        <InputLabel for="first_name" value="Imię" />
+        <InputLabel for="room_number" value="Numer sali" />
 
         <TextInput
-          id="first_name"
+          id="room_number"
           type="text"
           class="mt-1 block w-full"
-          v-model="form.first_name"
+          v-model="form.room_number"
           required
           autofocus
-          autocomplete="first_name"
+          autocomplete="room_number"
         />
 
-        <InputError class="mt-2" :message="form.errors.first_name" />
+        <InputError class="mt-2" :message="form.errors.room_number" />
       </div>
 
       <div class="mt-4">
-        <InputLabel for="last_name" value="Nazwisko" />
+        <InputLabel for="capacity" value="Liczba miejsc" />
 
         <TextInput
-          id="last_name"
+          id="capacity"
           type="text"
           class="mt-1 block w-full"
-          v-model="form.last_name"
+          v-model="form.capacity"
           required
-          autocomplete="last_name"
+          autofocus
+          autocomplete="capacity"
         />
 
-        <InputError class="mt-2" :message="form.errors.last_name" />
+        <InputError class="mt-2" :message="form.errors.capacity" />
       </div>
 
       <div class="mt-4">
-        <InputLabel for="phone" value="Numer telefonu" />
-
-        <TextInput
-          id="phone"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.phone"
-          required
-          autocomplete="phone"
-        />
-
-        <InputError class="mt-2" :message="form.errors.phone" />
-      </div>
-
-      <div class="mt-4">
-        <InputLabel for="comments" value="Uwagi" />
-
+        <InputLabel for="description" value="Opis sali" />
         <textarea
-          placeholder="Tutaj wpisz uwagi..."
-          id="comments"
+          placeholder="Tutaj wpisz opis..."
+          id="description"
           type="text"
           class="mt-1 block w-full"
-          v-model="form.comments"
+          v-model="form.description"
           autocomplete="new-password"
         ></textarea>
       </div>
 
       <div class="flex items-center justify-end mt-4">
         <Link
-          :href="route('admin.manage', { table: 'teachers' })"
+          :href="route('admin.manage', { table: 'directions' })"
           class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
           Powrót do zarządzania

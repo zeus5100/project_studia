@@ -5,93 +5,69 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
-import {
-  Notivue,
-  Notification,
-  NotivueSwipe,
-  NotificationProgress,
-  push,
-} from 'notivue';
+import { lessonTimers, daysOfWeek, updateEndTime } from '@/data.js';
+
+const props = defineProps({
+  activity: {
+    type: Object,
+    required: true,
+  },
+  classes: {
+    type: Array,
+    required: true,
+  },
+  subjects: {
+    type: Array,
+    required: true,
+  },
+  rooms: {
+    type: Array,
+    required: true,
+  },
+  teachers: {
+    type: Array,
+    required: true,
+  },
+});
 
 const form = useForm({
-  student_class_id: '',
-  subject_id: '',
-  room_id: '',
-  teacher_id: '',
-  start_time: '',
-  end_time: '',
-  day_of_week: '',
-  comments: '',
+  identifier: props.activity.id.toString(),
+  student_class_id: props.activity.student_class_id,
+  subject_id: props.activity.subject_id,
+  room_id: props.activity.room_id,
+  teacher_id: props.activity.teacher_id,
+  start_time: props.activity.start_time,
+  end_time: props.activity.end_time,
+  day_of_week: props.activity.day_of_week,
+  comments: props.activity.comments,
 });
-
-const updateEndTime = () => {
-  form.end_time = lessonTimers.value.find(
-    (lesson) => lesson.start === form.start_time
-  ).end;
-};
-
-const lessonTimers = ref([
-  { start: '08:00:00', end: '08:45:00' },
-  { start: '08:50:00', end: '09:35:00' },
-  { start: '09:45:00', end: '10:30:00' },
-  { start: '10:40:00', end: '11:25:00' },
-  { start: '11:40:00', end: '12:25:00' },
-  { start: '12:35:00', end: '13:20:00' },
-  { start: '13:30:00', end: '14:15:00' },
-  { start: '14:20:00', end: '15:05:00' },
-]);
-
-const daysOfWeek = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek'];
-
-const fetchData = async (url) => {
-  const { data } = await axios.get(route(`${url}.select`));
-  return data;
-};
-
-const allRooms = ref({});
-const allClasses = ref({});
-const allSubjects = ref({});
-const allTeachers = ref({});
 
 const submit = () => {
-  form.post(route('activities.store'), {
-    onSuccess: () => {
-      push.success({
-        title: 'Sukces',
-        message: 'Pomyślnie dodano nowe zajęcia!',
-      });
-      form.reset();
-    },
-    onError: () => {
-      push.error({
-        title: 'Błąd',
-        message: 'Nie wszystkie pola zostały poprawnie wypełnione',
-      });
-    },
-  });
+  form.put(route('activities.update', { activity: props.activity.id }));
 };
-
-onMounted(async () => {
-  allRooms.value = await fetchData('rooms');
-  allClasses.value = await fetchData('classes');
-  allSubjects.value = await fetchData('subjects');
-  allTeachers.value = await fetchData('teachers');
-});
 </script>
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
+    <Head title="Edycja zajęć" />
 
-    <Notivue v-slot="item">
-      <NotivueSwipe :item="item">
-        <Notification :item="item">
-          <NotificationProgress :item="item" />
-        </Notification>
-      </NotivueSwipe>
-    </Notivue>
     <form @submit.prevent="submit">
+      <div>
+        <InputLabel for="identifier" value="Identyfikator zajęć" />
+
+        <TextInput
+          id="identifier"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.identifier"
+          required
+          readonly
+          autocomplete="identifier"
+        />
+
+        <InputError class="mt-2" :message="form.errors.identifier" />
+      </div>
+
       <div>
         <InputLabel for="student_class_id" value="Wybierz klase" />
         <select
@@ -102,7 +78,7 @@ onMounted(async () => {
         >
           <option disabled value="">Wybierz</option>
           <option
-            v-for="singleClass in allClasses"
+            v-for="singleClass in classes"
             :value="singleClass.id"
             :key="singleClass"
           >
@@ -122,7 +98,7 @@ onMounted(async () => {
         >
           <option disabled value="">Wybierz</option>
           <option
-            v-for="subject in allSubjects"
+            v-for="subject in subjects"
             :value="subject.id"
             :key="subject"
           >
@@ -141,7 +117,7 @@ onMounted(async () => {
           class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
         >
           <option disabled value="">Wybierz</option>
-          <option v-for="room in allRooms" :value="room.id" :key="room">
+          <option v-for="room in rooms" :value="room.id" :key="room">
             {{ room.room_number }} - {{ room.description }}
           </option>
         </select>
@@ -158,7 +134,7 @@ onMounted(async () => {
         >
           <option disabled value="">Wybierz</option>
           <option
-            v-for="teacher in allTeachers"
+            v-for="teacher in teachers"
             :value="teacher.id"
             :key="teacher"
           >
@@ -190,7 +166,7 @@ onMounted(async () => {
           v-model="form.start_time"
           id="start_time"
           required
-          @change="updateEndTime"
+          @change="updateEndTime(form)"
           class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
         >
           <option disabled value="">Wybierz</option>
@@ -212,15 +188,15 @@ onMounted(async () => {
           type="text"
           class="mt-1 block w-full"
           v-model="form.comments"
-          autocomplete="new-password"
         ></textarea>
       </div>
+
       <div class="flex items-center justify-end mt-4">
         <Link
-          :href="route('admin.dashboard')"
+          :href="route('admin.manage', { table: 'activities' })"
           class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
-          Powrót do panelu
+          Powrót do zarządzania
         </Link>
 
         <PrimaryButton
@@ -228,7 +204,7 @@ onMounted(async () => {
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >
-          Dodaj zajęcie
+          Zapisz
         </PrimaryButton>
       </div>
     </form>

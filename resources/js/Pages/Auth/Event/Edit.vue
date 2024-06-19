@@ -5,64 +5,49 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
-import {
-  Notivue,
-  Notification,
-  NotivueSwipe,
-  NotificationProgress,
-  push,
-} from 'notivue';
+
+const props = defineProps({
+  event: {
+    type: Object,
+    required: true,
+  },
+  rooms: {
+    type: Array,
+    required: true,
+  },
+});
 
 const form = useForm({
-  room_id: '',
-  name: '',
-  date: '',
-  description: '',
+  identifier: props.event.id.toString(),
+  room_id: props.event.room_id,
+  name: props.event.name,
+  date: props.event.date,
+  description: props.event.description,
 });
-
-const allRooms = ref({});
-const getAllRooms = async () => {
-  await axios.get(route(`rooms.select`)).then(({ data }) => {
-    allRooms.value = data;
-  });
-};
 
 const submit = () => {
-  form.post(route('events.store'), {
-    onSuccess: () => {
-      push.success({
-        title: 'Sukces',
-        message: 'Pomyślnie dodano nowe wydarzenie!',
-      });
-      form.reset();
-    },
-    onError: () => {
-      push.error({
-        title: 'Błąd',
-        message: 'Nie wszystkie pola zostały poprawnie wypełnione',
-      });
-    },
-  });
+  form.put(route('events.update', { event: props.event.id }));
 };
-
-onMounted(() => {
-  getAllRooms();
-});
 </script>
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
-    <Notivue v-slot="item">
-      <NotivueSwipe :item="item">
-        <Notification :item="item">
-          <NotificationProgress :item="item" />
-        </Notification>
-      </NotivueSwipe>
-    </Notivue>
+    <Head title="Edycja wydarzenia" />
     <form @submit.prevent="submit">
       <div>
+        <InputLabel for="identifier" value="Identyfikator nauczyciela" />
+
+        <TextInput
+          id="identifier"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.identifier"
+          required
+          readonly
+          autocomplete="identifier"
+        />
+      </div>
+      <div class="mt-4">
         <InputLabel for="room_id" value="Wybierz sale" />
         <select
           v-model="form.room_id"
@@ -71,7 +56,7 @@ onMounted(() => {
           class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
         >
           <option disabled value="">Wybierz</option>
-          <option v-for="room in allRooms" :value="room.id" :key="room">
+          <option v-for="room in rooms" :value="room.id" :key="room">
             {{ room.room_number }} - {{ room.description }}
           </option>
         </select>
@@ -123,7 +108,7 @@ onMounted(() => {
 
       <div class="flex items-center justify-end mt-4">
         <Link
-          :href="route('admin.dashboard')"
+          :href="route('admin.manage', { table: 'events' })"
           class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
           Powrót do panelu
@@ -134,7 +119,7 @@ onMounted(() => {
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >
-          Dodaj wydarzenie
+          Zapisz
         </PrimaryButton>
       </div>
     </form>
