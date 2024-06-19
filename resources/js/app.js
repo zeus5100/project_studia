@@ -10,7 +10,8 @@ import 'notivue/notification.css';
 import 'notivue/animations.css';
 import 'notivue/notification-progress.css';
 const notivue = createNotivue({
-    limit: 4,
+    limit: 1,
+    enqueue: true,
     avoidDuplicates: true,
     notifications: {
         global: {

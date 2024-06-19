@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentClassController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudyDirectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -56,6 +57,14 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         Route::delete('/{teacher}', [TeacherController::class, 'destroy'])->name('destroy');
         Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('edit');
         Route::put('/{teacher}', [TeacherController::class, 'update'])->name('update');
+    });
+
+    Route::name('students.')->prefix('students')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('/select', [StudentController::class, 'select'])->name('select');
+        Route::delete('/{student}', [StudentController::class, 'destroy'])->name('destroy');
+        Route::get('/{student}/edit', [StudentController::class, 'edit'])->name('edit');
+        Route::put('/{student}', [StudentController::class, 'update'])->name('update');
     });
 
     Route::name('directions.')->prefix('directions')->group(function () {
