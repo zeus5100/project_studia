@@ -90,6 +90,8 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
         Route::delete('/{activity}', [ActivityController::class, 'destroy'])->name('destroy');
         Route::get('/{activity}/edit', [ActivityController::class, 'edit'])->name('edit');
         Route::put('/{activity}', [ActivityController::class, 'update'])->name('update');
+        Route::get('/create', [ActivityController::class, 'create'])->name('create');
+        Route::post('/', [ActivityController::class, 'store'])->name('store');
     });
 
     Route::name('rooms.')->prefix('rooms')->group(function () {
@@ -103,11 +105,11 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::name('events.')->prefix('events')->group(function () {
         Route::get('/create', [EventController::class, 'create'])->name('create');
         Route::post('/', [EventController::class, 'store'])->name('store');
-    });
-
-    Route::name('activities.')->prefix('activities')->group(function () {
-        Route::get('/create', [ActivityController::class, 'create'])->name('create');
-        Route::post('/', [ActivityController::class, 'store'])->name('store');
+        Route::get('/', [EventController::class, 'index'])->name('index');
+        Route::get('/select', [EventController::class, 'select'])->name('select');
+        Route::delete('/{event}', [EventController::class, 'destroy'])->name('destroy');
+        Route::get('/{event}/edit', [EventController::class, 'edit'])->name('edit');
+        Route::put('/{event}', [EventController::class, 'update'])->name('update');
     });
 
     Route::get('register', [RegisteredUserController::class, 'create'])

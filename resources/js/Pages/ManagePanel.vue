@@ -44,6 +44,7 @@ const tableList = ref([
   { name: 'attendanceStatuses', text: 'Stany frekwencji' },
   { name: 'rooms', text: 'Sale' },
   { name: 'activities', text: 'Zajęcia' },
+  { name: 'events', text: 'Wydarzenia' },
 ]);
 
 const tableData = ref({});

@@ -20,7 +20,12 @@ class ActivityController extends Controller
 
     public function create()
     {
-        return Inertia::render('Auth/Activity');
+        return Inertia::render('Auth/Activity/Activity', [
+            'classes' => StudentClass::all(),
+            'subjects' => Subject::all(),
+            'rooms' => Room::all(),
+            'teachers' => Teacher::all(),
+        ]);
     }
 
     public function store(ActivityRequest $request)
@@ -30,9 +35,9 @@ class ActivityController extends Controller
 
     public function edit(Activity $activity)
     {
-        return Inertia::render('Auth/Classes/Edit', [
-            'activty' => $activity,
-            'studentClasses' => StudentClass::all(),
+        return Inertia::render('Auth/Activity/Edit', [
+            'activity' => $activity,
+            'classes' => StudentClass::all(),
             'subjects' => Subject::all(),
             'rooms' => Room::all(),
             'teachers' => Teacher::all(),
