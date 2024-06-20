@@ -13,4 +13,7 @@ import NavLink from '@/Components/NavLink.vue';
   <NavLink :href="route('activities')" :active="route().current('activities')">
     Plan zajęć
   </NavLink>
+  <NavLink :href="route('students')" :active="route().current('students')">
+    Moja klasa
+  </NavLink>
 </template>

@@ -11,6 +11,7 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import DashboardNav from '@/Components/Teacher/DashboardNav.vue';
 import ResponsiveDashboardNav from '@/Components/Teacher/ResponsiveDashboardNav.vue';
 import { ref } from 'vue';
+import { lessonTimers, daysOfWeek } from '@/data.js';
 
 const props = defineProps({
   teacher: {
@@ -18,25 +19,6 @@ const props = defineProps({
     required: false,
   },
 });
-
-const lessonTimers = ref([
-  { start: '08:00:00', end: '08:45:00' },
-  { start: '08:50:00', end: '09:35:00' },
-  { start: '09:45:00', end: '10:30:00' },
-  { start: '10:40:00', end: '11:25:00' },
-  { start: '11:40:00', end: '12:25:00' },
-  { start: '12:35:00', end: '13:20:00' },
-  { start: '13:30:00', end: '14:15:00' },
-  { start: '14:20:00', end: '15:05:00' },
-]);
-
-const daysOfWeek = ref([
-  { id: 1, name: 'Poniedziałek' },
-  { id: 2, name: 'Wtorek' },
-  { id: 3, name: 'Środa' },
-  { id: 4, name: 'Czwartek' },
-  { id: 5, name: 'Piątek' },
-]);
 
 const hasLesson = (dayId, timeSlot) => {
   return props.teacher.activities.some(
@@ -102,15 +84,32 @@ const getLesson = (dayId, timeSlot) => {
                   <td
                     v-for="(day, index) in daysOfWeek"
                     :key="index"
-                    class="border"
+                    class="border text-center"
                   >
                     <div
                       v-if="hasLesson(day.id, timeSlot)"
                       class="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                     >
-                      <p class="text-blue-500">
-                        {{ getLesson(day.id, timeSlot).subject.name }}
-                      </p>
+                      <template v-if="getLesson(day.id, timeSlot)">
+                        <Link
+                          class="text-blue-500 block"
+                          :href="
+                            route('lessons', {
+                              id: getLesson(day.id, timeSlot).id,
+                            })
+                          "
+                        >
+                          {{ getLesson(day.id, timeSlot).subject.name }}
+                          <span class="text-black"
+                            >[{{
+                              getLesson(day.id, timeSlot).room.room_number
+                            }}]</span
+                          >
+                          <br />{{
+                            getLesson(day.id, timeSlot).student_class.name
+                          }}
+                        </Link>
+                      </template>
                     </div>
                     <div v-else class="px-4 py-2 text-gray-400">Brak zajęć</div>
                   </td>

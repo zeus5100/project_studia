@@ -15,4 +15,10 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
   >
     Moje zajęcia
   </ResponsiveNavLink>
+  <ResponsiveNavLink
+    :href="route('students')"
+    :active="route().current('students')"
+  >
+    Moja klasa
+  </ResponsiveNavLink>
 </template>

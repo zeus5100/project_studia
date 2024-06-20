@@ -24,9 +24,9 @@ class AppServiceProvider extends ServiceProvider
         RedirectIfAuthenticated::redirectUsing(function () {
             $user = Auth::user();
 
-            if ($user && $user->hasRole('admin')) {
+            if ($user->hasRole('admin')) {
                 return route('admin.dashboard');
-            } elseif ($user && $user->hasRole('teacher')) {
+            } elseif ($user->hasRole('teacher')) {
                 return route('teacher.dashboard');
             } else {
                 return route('home');

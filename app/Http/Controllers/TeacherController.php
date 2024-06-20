@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
+use App\Models\Activity;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -45,17 +46,48 @@ class TeacherController extends Controller
         ]);
     }
 
-    public function activities(Teacher $teacher)
+    public function activities()
     {
         $user = Auth::user();
 
-        if ($user->teacher) {
-            $teacher = $user->teacher;
-            $teacher->load('activities.subject');
+        $teacher = $user->teacher->load('activities.subject', 'activities.room', 'activities.studentClass');
 
-            return Inertia::render('Auth/Teacher/Activities', [
-                'teacher' => $teacher,
-            ]);
+        return Inertia::render('Auth/Teacher/Activities', [
+            'teacher' => $teacher,
+        ]);
+    }
+
+    public function lesson(Activity $activity)
+    {
+        $teacherId = Auth::user()->teacher->id;
+        $activities = Activity::select('id', 'student_class_id', 'subject_id')
+            ->where('teacher_id', $teacherId)
+            ->with('subject:id,name')
+            ->with('studentClass:id,name')
+            ->groupBy('student_class_id', 'subject_id')
+            ->get();
+
+        return Inertia::render('Auth/Teacher/Lesson', [
+            'activity' => $activity,
+            'activities' => $activities,
+        ]);
+    }
+
+    public function students()
+    {
+        $teacher = Auth::user()->teacher;
+
+        if (! $teacher->studentClasses()->first()) {
+            $students = null;
+            $studentClass = null;
+        } else {
+            $students = $teacher->studentClasses()->first()->students;
+            $studentClass = $teacher->studentClasses()->with('direction')->first();
         }
+
+        return Inertia::render('Auth/Teacher/Students', [
+            'students' => $students,
+            'studentClass' => $studentClass,
+        ]);
     }
 }
