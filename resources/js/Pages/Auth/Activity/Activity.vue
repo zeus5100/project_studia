@@ -66,7 +66,7 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
+    <Head title="Tworzenie zajęć" />
 
     <Notivue v-slot="item">
       <NotivueSwipe :item="item">

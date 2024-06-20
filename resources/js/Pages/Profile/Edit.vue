@@ -32,7 +32,7 @@ defineProps({
     </template>
 
     <template #main>
-      <Link :href="route('admin.dashboard')">
+      <Link :href="route('home')">
         <ApplicationLogo
           class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
         />

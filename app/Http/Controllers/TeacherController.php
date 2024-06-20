@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TeacherController extends Controller
@@ -37,16 +38,24 @@ class TeacherController extends Controller
 
     public function destroy(Teacher $teacher)
     {
-        try {
-            $teacher->delete();
+        $teacher->delete();
 
-            return response()->json([
-                'message' => 'Nauczyciel został pomyślnie usunięty',
+        return response()->json([
+            'message' => 'Nauczyciel został pomyślnie usunięty',
+        ]);
+    }
+
+    public function activities(Teacher $teacher)
+    {
+        $user = Auth::user();
+
+        if ($user->teacher) {
+            $teacher = $user->teacher;
+            $teacher->load('activities.subject');
+
+            return Inertia::render('Auth/Teacher/Activities', [
+                'teacher' => $teacher,
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Wystąpił błąd podczas usuwania nauczyciela',
-            ], 500);
         }
     }
 }

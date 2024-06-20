@@ -22,7 +22,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('main');
+})->name('home');
 
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
@@ -119,6 +119,8 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::inertia('/teacher/dashboard', 'TeacherPanel')->name('teacher.dashboard');
+
+    Route::get('/activities', [TeacherController::class, 'activities'])->name('activities');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

@@ -27,7 +27,7 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
+    <Head title="Edycja statusu frekwencji" />
 
     <form @submit.prevent="submit">
       <div>
