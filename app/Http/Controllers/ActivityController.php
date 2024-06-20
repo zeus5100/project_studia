@@ -75,4 +75,29 @@ class ActivityController extends Controller
             'lessons' => $lessons,
         ]);
     }
+
+    public function grades(Activity $activity)
+    {
+        $students = $activity->grades()
+            ->with(['student']) // Dodajemy relację 'student'
+            ->get()
+            ->groupBy('student_id')
+            ->map(function ($grades) {
+                return [
+                    'student' => $grades->first()->student,
+                    'grades' => $grades->map(function ($grade) {
+                        return [
+                            'id' => $grade->id,
+                            'grade_value' => $grade->grade_value,
+                            'description' => $grade->description, // Pobieramy 'description' z obiektu $grade
+                        ];
+                    }),
+                ];
+            });
+
+        return Inertia::render('Auth/Teacher/Grades', [
+            'activity' => $activity->subject,
+            'students' => $students,
+        ]);
+    }
 }

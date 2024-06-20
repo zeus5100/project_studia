@@ -47,4 +47,9 @@ class Activity extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class);
+    }
 }

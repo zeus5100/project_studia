@@ -28,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
                 return route('admin.dashboard');
             } elseif ($user->hasRole('teacher')) {
                 return route('teacher.dashboard');
+            } elseif ($user->hasRole('student')) {
+                return route('student.dashboard');
             } else {
                 return route('home');
             }

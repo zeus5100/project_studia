@@ -5,6 +5,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceStatusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
@@ -123,6 +124,8 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::inertia('/teacher/dashboard', 'TeacherPanel')->name('teacher.dashboard');
     Route::get('/lessons/{activity}', [ActivityController::class, 'lessons'])->name('lessons');
     Route::get('/getLessons/{activity}', [ActivityController::class, 'getLessons'])->name('getLessons');
+    Route::get('activities/{activity}/students', [ActivityController::class, 'grades'])->name('activities.students.grades');
+
     Route::get('/activities', [TeacherController::class, 'activities'])->name('activities');
     Route::get('/lesson/{activity}', [TeacherController::class, 'lesson'])->name('lesson');
     Route::post('/lesson', [LessonController::class, 'store'])->name('lesson.store');
@@ -132,6 +135,15 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::get('/attendence/{lesson}', [LessonController::class, 'attendence'])->name('attendence');
     Route::post('/attendence', [AttendanceController::class, 'store'])->name('attendence.store');
     Route::put('/attendence/{lesson}', [AttendanceController::class, 'update'])->name('attendence.update');
+
+    Route::get('/grades/create/{activity}', [GradeController::class, 'create'])->name('grade.create');
+    Route::post('/grades/store}', [GradeController::class, 'store'])->name('grade.store');
+});
+
+Route::middleware(['auth', 'verified', 'role:Student'])->group(function () {
+    Route::inertia('/student/dashboard', 'StudentPanel')->name('student.dashboard');
+    Route::get('/activities', [StudentController::class, 'activities'])->name('activities');
+    Route::get('/grades', [StudentController::class, 'grades'])->name('grades');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
