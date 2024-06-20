@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use App\Models\StudentClass;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -44,6 +45,53 @@ class StudentController extends Controller
 
         return response()->json([
             'message' => 'Uczeń został pomyślnie usunięty',
+        ]);
+    }
+
+    public function activities()
+    {
+        $user = Auth::user();
+
+        $student = $user->student;
+        $studentClass = $student->studentClass->load('activities.subject', 'activities.room', 'activities.studentClass');
+
+        return Inertia::render('Auth/Student/Activities', [
+            'studentClass' => $studentClass,
+        ]);
+    }
+
+    public function grades()
+    {
+        $user = Auth::user();
+
+        $student = $user->student;
+        $subjectsForClass = $student->studentClass->activities()->with('subject')->get()->pluck('subject')->unique();
+        $grades = $student->grades->load('activity.subject');
+
+        $gradesBySubject = $grades->groupBy(function ($grade) {
+            return $grade->activity->subject->name;
+        });
+
+        return Inertia::render('Auth/Student/Grades', [
+            'grades' => $gradesBySubject,
+            'subjects' => $subjectsForClass,
+        ]);
+    }
+
+    public function studentGrades(Student $student)
+    {
+
+        $subjectsForClass = $student->studentClass->activities()->with('subject')->get()->pluck('subject')->unique();
+        $grades = $student->grades->load('activity.subject');
+
+        $gradesBySubject = $grades->groupBy(function ($grade) {
+            return $grade->activity->subject->name;
+        });
+
+        return Inertia::render('Auth/Teacher/StudentGrades', [
+            'student' => $student,
+            'grades' => $gradesBySubject,
+            'subjects' => $subjectsForClass,
         ]);
     }
 }

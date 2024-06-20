@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,8 +22,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // URL::forceScheme('https');
         RedirectIfAuthenticated::redirectUsing(function () {
-            return route('admin.dashboard');
+            $user = Auth::user();
+
+            if ($user->hasRole('admin')) {
+                return route('admin.dashboard');
+            } elseif ($user->hasRole('teacher')) {
+                return route('teacher.dashboard');
+            } elseif ($user->hasRole('student')) {
+                return route('student.dashboard');
+            } else {
+                return route('home');
+            }
         });
     }
 }

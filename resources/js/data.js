@@ -11,7 +11,13 @@ export const lessonTimers = ref([
     { start: '14:20:00', end: '15:05:00' },
 ]);
 
-export const daysOfWeek = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek'];
+export const daysOfWeek = ref([
+    { id: 1, name: 'Poniedziałek' },
+    { id: 2, name: 'Wtorek' },
+    { id: 3, name: 'Środa' },
+    { id: 4, name: 'Czwartek' },
+    { id: 5, name: 'Piątek' },
+]);
 
 export const updateEndTime = (form) => {
     form.end_time = lessonTimers.value.find(

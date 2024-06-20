@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\StudentClass;
 use App\Models\StudyDirection;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class StudentClassSeeder extends Seeder
 {
@@ -33,5 +36,56 @@ class StudentClassSeeder extends Seeder
                 'student_count' => 0,
             ]
         );
+
+        $student = User::updateOrCreate(
+            ['email' => 'student@example.com'],
+            [
+                'login' => 'student1',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $student->student()->updateOrCreate([
+            'first_name' => 'Dominik',
+            'last_name' => 'Kaliński',
+            'student_class_id' => 1,
+        ]);
+        $teacherRole = Role::where('name', 'student')->first();
+        if ($teacherRole) {
+            $student->roles()->attach($teacherRole);
+        }
+
+        $student = User::updateOrCreate(
+            ['email' => 'student2@example.com'],
+            [
+                'login' => 'student2',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $student->student()->updateOrCreate([
+            'first_name' => 'Kacper',
+            'last_name' => 'Malinowski',
+            'student_class_id' => 1,
+        ]);
+        $teacherRole = Role::where('name', 'student')->first();
+        if ($teacherRole) {
+            $student->roles()->attach($teacherRole);
+        }
+
+        $student = User::updateOrCreate(
+            ['email' => 'student3@example.com'],
+            [
+                'login' => 'student3',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $student->student()->updateOrCreate([
+            'first_name' => 'Katarzyna',
+            'last_name' => 'Pilecka',
+            'student_class_id' => 1,
+        ]);
+        $teacherRole = Role::where('name', 'student')->first();
+        if ($teacherRole) {
+            $student->roles()->attach($teacherRole);
+        }
     }
 }

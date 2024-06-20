@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceStatusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentClassController;
@@ -22,7 +25,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('main');
+})->name('home');
 
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
@@ -119,6 +122,28 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::inertia('/teacher/dashboard', 'TeacherPanel')->name('teacher.dashboard');
+    Route::get('/lessons/{activity}', [ActivityController::class, 'lessons'])->name('lessons');
+    Route::get('/getLessons/{activity}', [ActivityController::class, 'getLessons'])->name('getLessons');
+    Route::get('activities/{activity}/students', [ActivityController::class, 'grades'])->name('activities.students.grades');
+
+    Route::get('/teacher/activities', [TeacherController::class, 'activities'])->name('teacher.activities');
+    Route::get('/lesson/{activity}', [TeacherController::class, 'lesson'])->name('lesson');
+    Route::post('/lesson', [LessonController::class, 'store'])->name('lesson.store');
+    Route::delete('/lesson/{lesson}', [LessonController::class, 'destroy'])->name('lesson.destroy');
+    Route::get('/grades/{student}', [StudentController::class, 'studentGrades'])->name('student.grades');
+    Route::get('/students', [TeacherController::class, 'students'])->name('students');
+    Route::get('/attendence/{lesson}', [LessonController::class, 'attendence'])->name('attendence');
+    Route::post('/attendence', [AttendanceController::class, 'store'])->name('attendence.store');
+    Route::put('/attendence/{lesson}', [AttendanceController::class, 'update'])->name('attendence.update');
+
+    Route::get('/grades/create/{activity}', [GradeController::class, 'create'])->name('grade.create');
+    Route::post('/grades/store}', [GradeController::class, 'store'])->name('grade.store');
+});
+
+Route::middleware(['auth', 'verified', 'role:Student'])->group(function () {
+    Route::inertia('/student/dashboard', 'StudentPanel')->name('student.dashboard');
+    Route::get('/student/activities', [StudentController::class, 'activities'])->name('student.activities');
+    Route::get('/grades', [StudentController::class, 'grades'])->name('grades');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

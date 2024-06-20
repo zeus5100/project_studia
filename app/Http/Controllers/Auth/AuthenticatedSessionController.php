@@ -38,8 +38,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('admin.dashboard'));
         } elseif ($user->hasRole('Teacher')) {
             return redirect()->intended(route('teacher.dashboard'));
-        } else {
-            //TODO PRZEKIEROWANIE NA STRONE UCZNIA
+        } elseif ($user->hasRole('Student')) {
+            return redirect()->intended(route('student.dashboard'));
         }
     }
 

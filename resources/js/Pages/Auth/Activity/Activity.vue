@@ -66,7 +66,7 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
+    <Head title="Tworzenie zajęć" />
 
     <Notivue v-slot="item">
       <NotivueSwipe :item="item">
@@ -161,11 +161,11 @@ const submit = () => {
           class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
         >
           <option disabled value="">Wybierz</option>
-          <option v-for="(day, key) in daysOfWeek" :value="key + 1" :key="key">
-            {{ day }}
+          <option v-for="day in daysOfWeek" :value="day.id" :key="day">
+            {{ day.name }}
           </option>
         </select>
-        <InputError class="mt-2" :message="form.errors.start_time" />
+        <InputError class="mt-2" :message="form.errors.day_of_week" />
       </div>
 
       <div class="mt-4">

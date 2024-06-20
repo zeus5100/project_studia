@@ -5,6 +5,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { lessonTimers, daysOfWeek, updateEndTime } from '@/data.js';
+
 import {
   Notivue,
   Notification,
@@ -14,25 +16,36 @@ import {
 } from 'notivue';
 
 const props = defineProps({
-  rooms: {
+  activity: {
+    type: Object,
+    required: true,
+  },
+  students: {
     type: Array,
     required: true,
   },
 });
 
+const activity_name = props.activity.subject.name;
+const now = new Date();
+now.setHours(now.getHours() + 2);
+const formattedDateTime = now.toISOString().slice(0, 16);
+
 const form = useForm({
-  room_id: '',
-  name: '',
-  date: '',
+  activity_id: props.activity.id,
+  student_id: '',
+  grade_date: formattedDateTime,
+  grade_value: '',
+  grade_weight: '',
   description: '',
 });
 
 const submit = () => {
-  form.post(route('events.store'), {
+  form.post(route('grade.store'), {
     onSuccess: () => {
       push.success({
         title: 'Sukces',
-        message: 'Pomyślnie dodano nowe wydarzenie!',
+        message: 'Pomyślnie dodano nowe zajęcia!',
       });
       form.reset();
     },
@@ -48,7 +61,8 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Tworzenie wydarzenia" />
+    <Head title="Wpisywanie oceny" />
+
     <Notivue v-slot="item">
       <NotivueSwipe :item="item">
         <Notification :item="item">
@@ -58,70 +72,79 @@ const submit = () => {
     </Notivue>
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="room_id" value="Wybierz sale" />
+        <InputLabel for="activity_id" value="Zajęcia" />
+
+        <TextInput
+          id="activity_id"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="activity_name"
+          required
+          readonly
+        />
+      </div>
+
+      <div class="mt-4">
+        <InputLabel for="student_id" value="Wybierz ucznia" />
         <select
-          v-model="form.room_id"
-          id="room_id"
+          v-model="form.student_id"
+          id="student_id"
           required
           class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
         >
           <option disabled value="">Wybierz</option>
-          <option v-for="room in rooms" :value="room.id" :key="room">
-            {{ room.room_number }} - {{ room.description }}
+          <option
+            v-for="student in students"
+            :value="student.id"
+            :key="student"
+          >
+            {{ student.id }}. {{ student.first_name }} {{ student.last_name }}
           </option>
         </select>
-        <InputError class="mt-2" :message="form.errors.room_id" />
+        <InputError class="mt-2" :message="form.errors.student_id" />
       </div>
 
       <div class="mt-4">
-        <InputLabel for="name" value="Nazwa wydarzenia" />
+        <InputLabel for="grade_value" value="Ocena" />
 
         <TextInput
-          id="name"
+          id="grade_value"
           type="text"
           class="mt-1 block w-full"
-          v-model="form.name"
+          v-model="form.grade_value"
           required
-          autofocus
-          autocomplete="name"
         />
-
-        <InputError class="mt-2" :message="form.errors.name" />
+        <InputError class="mt-2" :message="form.errors.grade_value" />
       </div>
 
       <div class="mt-4">
-        <InputLabel for="date" value="Data wydarzenia" />
+        <InputLabel for="grade_value" value="Waga" />
 
-        <input
-          type="datetime-local"
-          id="date"
-          v-model="form.date"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        <TextInput
+          id="grade_weight"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.grade_weight"
+          required
         />
-
-        <InputError class="mt-2" :message="form.errors.date" />
+        <InputError class="mt-2" :message="form.errors.grade_weight" />
       </div>
-
       <div class="mt-4">
-        <InputLabel for="description" value="Opis wydarzenia" />
-
+        <InputLabel for="description" value="Opis oceny" />
         <textarea
-          placeholder="Tutaj wpisz uwagi..."
+          placeholder="Krótki opis oceny..."
           id="description"
           type="text"
           class="mt-1 block w-full"
           v-model="form.description"
-          autocomplete="new-password"
         ></textarea>
-        <InputError class="mt-2" :message="form.errors.description" />
       </div>
-
       <div class="flex items-center justify-end mt-4">
         <Link
-          :href="route('admin.dashboard')"
+          :href="route('activities.students.grades', { activity: activity.id })"
           class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
-          Powrót do panelu
+          Powrót do ocen
         </Link>
 
         <PrimaryButton
@@ -129,7 +152,7 @@ const submit = () => {
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >
-          Dodaj wydarzenie
+          Dodaj ocenę
         </PrimaryButton>
       </div>
     </form>

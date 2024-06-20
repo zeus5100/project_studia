@@ -2,8 +2,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import NavLink from '@/Components/NavLink.vue';
+import { Link } from '@inertiajs/vue3';
+import DashboardNav from '@/Components/Teacher/DashboardNav.vue';
+import ResponsiveDashboardNav from '@/Components/Teacher/ResponsiveDashboardNav.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 </script>
-
 <template>
   <Head title="Panel Nauczyciela" />
 
@@ -15,14 +18,19 @@ import NavLink from '@/Components/NavLink.vue';
         Panel Główny
       </h2>
     </template>
-
+    <template #main>
+      <Link :href="route('home')">
+        <ApplicationLogo
+          class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
+        />
+      </Link>
+    </template>
     <template #nav>
-      <NavLink
-        :href="route('teacher.dashboard')"
-        :active="route().current('teacher.dashboard')"
-      >
-        Panel Główny
-      </NavLink>
+      <DashboardNav />
+    </template>
+
+    <template #responsiveNav>
+      <ResponsiveDashboardNav />
     </template>
 
     <div class="py-12">

@@ -26,12 +26,12 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'login' => 'required|string|max:255',
+            'login' => 'required|string|min:4|max:255|unique:users,login',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'selected_role' => 'required|integer',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
+            'last_name' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
             'phone' => 'required_if:selected_role,1|nullable|string|max:20',
             'class_id' => 'required_if:selected_role,2|nullable|exists:student_classes,id',
             'comments' => 'nullable|string|max:1000',

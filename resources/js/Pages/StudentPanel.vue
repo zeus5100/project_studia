@@ -1,15 +1,15 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import DashboardNav from '@/Components/DashboardNav.vue';
-import ResponsiveDashboardNav from '@/Components/ResponsiveDashboardNav.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import NavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import DashboardNav from '@/Components/Student/DashboardNav.vue';
+import ResponsiveDashboardNav from '@/Components/Student/ResponsiveDashboardNav.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 </script>
-
 <template>
-  <Head title="Strona Główna" />
+  <Head title="Panel Ucznia" />
+
   <AuthenticatedLayout>
     <template #header>
       <h2
@@ -39,7 +39,7 @@ import { Link } from '@inertiajs/vue3';
           class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
         >
           <div class="p-6 text-gray-900 dark:text-gray-100">
-            Jesteś zalogowany jako administrator!
+            Jesteś zalogowany jako uczeń!
           </div>
         </div>
       </div>
