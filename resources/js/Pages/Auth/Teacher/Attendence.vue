@@ -11,9 +11,20 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import DashboardNav from '@/Components/Teacher/DashboardNav.vue';
 import ResponsiveDashboardNav from '@/Components/Teacher/ResponsiveDashboardNav.vue';
 import Modal from '@/Components/Modal.vue';
+import {
+  Notivue,
+  Notification,
+  NotivueSwipe,
+  NotificationProgress,
+  push,
+} from 'notivue';
 import { ref } from 'vue';
 
 const props = defineProps({
+  activity: {
+    type: Object,
+    required: true,
+  },
   lesson: {
     type: Object,
     required: true,
@@ -34,14 +45,24 @@ const form = useForm({
 });
 
 const submitAttendance = () => {
+  if (Object.keys(form.attendance).length != props.students.length) {
+    push.error({
+      title: 'Błąd',
+      message: 'Nie wszystkie pola zostały poprawnie wypełnione',
+    });
+    return;
+  }
   form.post(route('attendence.store'), {
     onSuccess: () => {
-      alert('Frekwencja została zapisana.');
-      form.reset();
+      window.location.href = route('lessons', {
+        id: props.activity.id,
+      });
     },
-    onError: (errors) => {
-      console.error('Błąd podczas zapisywania frekwencji:', errors);
-      alert('Wystąpił błąd podczas zapisywania frekwencji.');
+    onError: () => {
+      push.error({
+        title: 'Błąd',
+        message: 'Nie wszystkie pola zostały poprawnie wypełnione',
+      });
     },
   });
 };
@@ -50,6 +71,13 @@ const submitAttendance = () => {
 <template>
   <Head title="Plan zajęć" />
   <AuthenticatedLayout>
+    <Notivue v-slot="item">
+      <NotivueSwipe :item="item">
+        <Notification :item="item">
+          <NotificationProgress :item="item" />
+        </Notification>
+      </NotivueSwipe>
+    </Notivue>
     <template #header>
       <div class="flex justify-between">
         <!-- <p class="text-lg font-semibold">
@@ -85,11 +113,17 @@ const submitAttendance = () => {
                 >
                   {{ key + 1 }}. {{ student.first_name }}
                   {{ student.last_name }}
-                  <select v-model="form.attendance[student.id]" class="w-1/2">
+                  <select
+                    v-model="form.attendance[student.id]"
+                    :id="student.id"
+                    class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-1/2"
+                  >
+                    <option disabled value="">Wybierz</option>
                     <option
                       v-for="status in attendenceStatuses"
                       :key="status"
                       :value="status.id"
+                      required
                     >
                       {{ status.name }}
                     </option>
@@ -103,6 +137,11 @@ const submitAttendance = () => {
                 Zapisz frekwencję
               </button>
             </form>
+            <Link
+              :href="route('lessons', { activity: activity.id })"
+              class="inline-flex items-center px-2 mx-1 py-2 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 bg-orange-300"
+              >Powrót do lekcji</Link
+            >
           </div>
         </div>
       </div>

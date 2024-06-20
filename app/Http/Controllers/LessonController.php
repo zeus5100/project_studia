@@ -34,15 +34,17 @@ class LessonController extends Controller
 
             return Inertia::render('Auth/Teacher/EditAttendance', [
                 'lesson' => $lesson,
+                'activity' => $lesson->activity,
                 'students' => $students,
                 'attendanceStatuses' => $attendanceStatuses,
                 'existingAttendance' => $lesson->attendance,
             ]);
         } else {
-            return Inertia::render('Auth/Teacher/Attendance', [
+            return Inertia::render('Auth/Teacher/Attendence', [
+                'activity' => $lesson->activity,
                 'lesson' => $lesson,
                 'students' => $students,
-                'attendanceStatuses' => $attendanceStatuses,
+                'attendenceStatuses' => $attendanceStatuses,
             ]);
         }
     }

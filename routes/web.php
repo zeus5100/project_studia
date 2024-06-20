@@ -126,11 +126,11 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::get('/getLessons/{activity}', [ActivityController::class, 'getLessons'])->name('getLessons');
     Route::get('activities/{activity}/students', [ActivityController::class, 'grades'])->name('activities.students.grades');
 
-    Route::get('/activities', [TeacherController::class, 'activities'])->name('activities');
+    Route::get('/teacher/activities', [TeacherController::class, 'activities'])->name('teacher.activities');
     Route::get('/lesson/{activity}', [TeacherController::class, 'lesson'])->name('lesson');
     Route::post('/lesson', [LessonController::class, 'store'])->name('lesson.store');
     Route::delete('/lesson/{lesson}', [LessonController::class, 'destroy'])->name('lesson.destroy');
-
+    Route::get('/grades/{student}', [StudentController::class, 'studentGrades'])->name('student.grades');
     Route::get('/students', [TeacherController::class, 'students'])->name('students');
     Route::get('/attendence/{lesson}', [LessonController::class, 'attendence'])->name('attendence');
     Route::post('/attendence', [AttendanceController::class, 'store'])->name('attendence.store');
@@ -142,7 +142,7 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:Student'])->group(function () {
     Route::inertia('/student/dashboard', 'StudentPanel')->name('student.dashboard');
-    Route::get('/activities', [StudentController::class, 'activities'])->name('activities');
+    Route::get('/student/activities', [StudentController::class, 'activities'])->name('student.activities');
     Route::get('/grades', [StudentController::class, 'grades'])->name('grades');
 });
 

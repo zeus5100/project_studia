@@ -57,13 +57,30 @@ class StudentClassSeeder extends Seeder
         $student = User::updateOrCreate(
             ['email' => 'student2@example.com'],
             [
-                'login' => 'student12',
+                'login' => 'student2',
                 'password' => Hash::make('password'),
             ]
         );
         $student->student()->updateOrCreate([
             'first_name' => 'Kacper',
             'last_name' => 'Malinowski',
+            'student_class_id' => 1,
+        ]);
+        $teacherRole = Role::where('name', 'student')->first();
+        if ($teacherRole) {
+            $student->roles()->attach($teacherRole);
+        }
+
+        $student = User::updateOrCreate(
+            ['email' => 'student3@example.com'],
+            [
+                'login' => 'student3',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $student->student()->updateOrCreate([
+            'first_name' => 'Katarzyna',
+            'last_name' => 'Pilecka',
             'student_class_id' => 1,
         ]);
         $teacherRole = Role::where('name', 'student')->first();

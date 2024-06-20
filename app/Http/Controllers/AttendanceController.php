@@ -23,7 +23,6 @@ class AttendanceController extends Controller
                 'updated_at' => now(),
             ];
         }
-
         Attendance::insert($attendanceRecords);
     }
 

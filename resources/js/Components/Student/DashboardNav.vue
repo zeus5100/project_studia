@@ -9,7 +9,10 @@ import NavLink from '@/Components/NavLink.vue';
   >
     Panel Główny
   </NavLink>
-  <NavLink :href="route('activities')" :active="route().current('activities')">
+  <NavLink
+    :href="route('student.activities')"
+    :active="route().current('student.activities')"
+  >
     Plan zajęć
   </NavLink>
   <NavLink :href="route('grades')" :active="route().current('grades')">

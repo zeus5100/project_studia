@@ -10,8 +10,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
     Panel Główny
   </ResponsiveNavLink>
   <ResponsiveNavLink
-    :href="route('activities')"
-    :active="route().current('activities')"
+    :href="route('student.activities')"
+    :active="route().current('student.activities')"
   >
     Panel Główny
   </ResponsiveNavLink>

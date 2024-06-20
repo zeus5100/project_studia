@@ -21,5 +21,11 @@ class StudyDirectionSeeder extends Seeder
         StudyDirection::updateOrCreate([
             'name' => 'Technik Programista',
         ]);
+        StudyDirection::updateOrCreate([
+            'name' => 'Technik Ekonomista',
+        ]);
+        StudyDirection::updateOrCreate([
+            'name' => 'Technik Mechatronik',
+        ]);
     }
 }

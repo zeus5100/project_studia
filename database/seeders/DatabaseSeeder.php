@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             StudentClassSeeder::class,
             AttendanceStatusSeeder::class,
             RoomSeeder::class,
+            ActivitySeeder::class,
+            GradeSeeder::class,
         ]);
         // User::factory()->create([
         //     'name' => 'Test User',

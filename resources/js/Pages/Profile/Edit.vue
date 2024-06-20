@@ -40,11 +40,9 @@ defineProps({
     </template>
 
     <template #nav>
-      <DashboardNav />
-    </template>
-
-    <template #responsiveNav>
-      <ResponsiveDashboardNav />
+      <NavLink :href="route('login')" :active="route().current('login')">
+        Panel Główny
+      </NavLink>
     </template>
 
     <div class="py-12">

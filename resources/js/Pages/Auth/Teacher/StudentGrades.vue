@@ -8,12 +8,16 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
-import DashboardNav from '@/Components/Student/DashboardNav.vue';
-import ResponsiveDashboardNav from '@/Components/Student/ResponsiveDashboardNav.vue';
+import DashboardNav from '@/Components/Teacher/DashboardNav.vue';
+import ResponsiveDashboardNav from '@/Components/Teacher/ResponsiveDashboardNav.vue';
 import { ref } from 'vue';
 import { lessonTimers, daysOfWeek } from '@/data.js';
 
 const props = defineProps({
+  student: {
+    type: Object,
+    required: false,
+  },
   grades: {
     type: Object,
     required: false,
@@ -28,7 +32,12 @@ const props = defineProps({
 <template>
   <Head title="Plan zajęć" />
   <AuthenticatedLayout>
-    <template #header> </template>
+    <template #header
+      >Oceny ucznia:
+      <strong
+        >{{ student.first_name }} {{ student.last_name }}</strong
+      ></template
+    >
     <template #main>
       <Link :href="route('home')">
         <ApplicationLogo
@@ -113,6 +122,11 @@ const props = defineProps({
                   </template>
                 </tbody>
               </table>
+              <Link
+                :href="route('students')"
+                class="float-right inline-flex items-center px-4 mx-2 py-2 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 bg-green-700"
+                >Powrót do uczniów</Link
+              >
             </div>
           </div>
         </div>

@@ -77,4 +77,21 @@ class StudentController extends Controller
             'subjects' => $subjectsForClass,
         ]);
     }
+
+    public function studentGrades(Student $student)
+    {
+
+        $subjectsForClass = $student->studentClass->activities()->with('subject')->get()->pluck('subject')->unique();
+        $grades = $student->grades->load('activity.subject');
+
+        $gradesBySubject = $grades->groupBy(function ($grade) {
+            return $grade->activity->subject->name;
+        });
+
+        return Inertia::render('Auth/Teacher/StudentGrades', [
+            'student' => $student,
+            'grades' => $gradesBySubject,
+            'subjects' => $subjectsForClass,
+        ]);
+    }
 }
