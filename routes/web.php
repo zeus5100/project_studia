@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceStatusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EventController;
@@ -128,6 +129,9 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])->group(function () {
     Route::delete('/lesson/{lesson}', [LessonController::class, 'destroy'])->name('lesson.destroy');
 
     Route::get('/students', [TeacherController::class, 'students'])->name('students');
+    Route::get('/attendence/{lesson}', [LessonController::class, 'attendence'])->name('attendence');
+    Route::post('/attendence', [AttendanceController::class, 'store'])->name('attendence.store');
+    Route::put('/attendence/{lesson}', [AttendanceController::class, 'update'])->name('attendence.update');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

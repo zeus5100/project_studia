@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LessonRequest;
+use App\Models\AttendanceStatus;
 use App\Models\Lesson;
+use Inertia\Inertia;
 
 class LessonController extends Controller
 {
@@ -17,5 +19,31 @@ class LessonController extends Controller
         $lesson->delete();
 
         return response()->json(['message' => 'Lekcja została pomyślnie usunięta']);
+    }
+
+    public function attendence(Lesson $lesson)
+    {
+        $activity = $lesson->activity;
+        $studentClass = $activity->studentClass;
+        $students = $studentClass->students;
+
+        $attendanceExists = $lesson->attendance()->exists();
+        $attendanceStatuses = AttendanceStatus::select('id', 'name')->get();
+
+        if ($attendanceExists) {
+
+            return Inertia::render('Auth/Teacher/EditAttendance', [
+                'lesson' => $lesson,
+                'students' => $students,
+                'attendanceStatuses' => $attendanceStatuses,
+                'existingAttendance' => $lesson->attendance,
+            ]);
+        } else {
+            return Inertia::render('Auth/Teacher/Attendance', [
+                'lesson' => $lesson,
+                'students' => $students,
+                'attendanceStatuses' => $attendanceStatuses,
+            ]);
+        }
     }
 }
