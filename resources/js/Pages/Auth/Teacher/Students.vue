@@ -26,7 +26,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <Head title="Plan zajęć" />
+  <Head title="Moja klasa" />
   <AuthenticatedLayout>
     <template #header>
       <div class="flex justify-between">

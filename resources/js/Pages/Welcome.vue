@@ -80,7 +80,8 @@ function handleImageError() {
     </div>
     <img
       id="background"
-      class="absolute -left-80 top-0 max-w-[877px] h-full"
+      alt="obraz-tła"
+      class="absolute -left-80 top-0 max-w-[877px] h-full pointer-events-none"
       src="https://laravel.com/assets/img/welcome/background.svg"
     />
   </div>

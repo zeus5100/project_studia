@@ -1,5 +1,11 @@
 <script setup>
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+
+defineProps({
+  haveClass: {
+    type: Boolean,
+  },
+});
 </script>
 
 <template>
@@ -16,6 +22,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
     Moje zajęcia
   </ResponsiveNavLink>
   <ResponsiveNavLink
+    v-if="haveClass"
     :href="route('students')"
     :active="route().current('students')"
   >

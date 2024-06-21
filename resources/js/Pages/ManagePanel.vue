@@ -147,7 +147,7 @@ onMounted(() => {
       </form>
     </template>
     <template #main>
-      <Link :href="route('home')">
+      <Link :href="route('home')" aria-label="home">
         <ApplicationLogo
           class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
         />

@@ -26,7 +26,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <Head title="Plan zajęć" />
+  <Head title="Moje oceny" />
   <AuthenticatedLayout>
     <template #header> </template>
     <template #main>

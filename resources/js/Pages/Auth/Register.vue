@@ -145,7 +145,7 @@ onMounted(() => {
         <InputError class="mt-2" :message="form.errors.phone" />
       </div>
 
-      <div class="mt-4" v-if="form.selected_role == 2">
+      <div class="mt-4">
         <InputLabel for="class_id" value="Wybierz klase" />
         <select
           v-model="form.class_id"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\StudentClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,7 @@ class RegisteredUserController extends Controller
             'first_name' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
             'last_name' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
             'phone' => 'required_if:selected_role,1|nullable|string|max:20',
-            'class_id' => 'required_if:selected_role,2|nullable|exists:student_classes,id',
+            'class_id' => 'exists:student_classes,id',
             'comments' => 'nullable|string|max:1000',
         ]);
 
@@ -45,11 +46,16 @@ class RegisteredUserController extends Controller
             ]);
             $user->roles()->attach($request->selected_role);
             if ($request->selected_role == 1) {
-                $user->teacher()->create([
+                $teacher = $user->teacher()->create([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                     'phone' => $request->phone,
                     'comments' => $request->comments,
+                ]);
+
+                $singleClass = StudentClass::find($request->class_id);
+                $singleClass->update([
+                    'teacher_id' => $teacher->id,
                 ]);
             }
 
